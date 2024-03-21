@@ -22,7 +22,7 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 3. MongoDB Java driver
     - To run your Java(JDK) on your machine, the driver should be installed. If you decide to build it with Maven, there are synchorous Java applicatoin with MongoDB. Here is the brief introduction of [the driver](https://www.mongodb.com/docs/drivers/java/sync/current/).
-    - To completely install the drive, you should add dependencies on your own pom.xml in your project directory. Please rfer to [Add MongoDB as a Dependency](https://www.mongodb.com/docs/drivers/java/sync/current/quick-start/). 
+    - To completely install the driver, you should add dependencies on your own pom.xml in your project directory. Please refer to [Add MongoDB as a Dependency](https://www.mongodb.com/docs/drivers/java/sync/current/quick-start/). 
 
 4. MongoDB
     - Recommend install MongoDB Community version, which would be open-source program and can deploy on your local machine. 
