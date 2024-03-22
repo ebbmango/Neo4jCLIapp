@@ -1,13 +1,10 @@
-# DB2 4 Kim Heesung Emanuel Borges
+# DB2 4 Kim Heesung Emanuel Borges Chakraborty Pritam
 
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
+## Introduction
+This project is aim to acheive follwoing :
+    a. Design the database of the given file
+    b. Implement it with MongoDB
+    c. The API will retriev the data which satisfying the client's requirments
 
 ## Installation & prerequisite
 
@@ -18,7 +15,6 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 2. Maven
     - To create projects, it is recommended to build it with Maven. For this project, MongoDB will have dependencies using Maven.
     - Here is the simple guide to installation [Maven](https://maven.apache.org/install.html).
-    
 
 3. MongoDB Java driver
     - To run your Java(JDK) on your machine, the driver should be installed. If you decide to build it with Maven, there are synchorous Java applicatoin with MongoDB. Here is the brief introduction of [the driver](https://www.mongodb.com/docs/drivers/java/sync/current/).
@@ -28,19 +24,44 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
     - Recommend install MongoDB Community version, which would be open-source program and can deploy on your local machine. 
     - If you want to incorporate another version such as MongoDB Atlas or Enterprise, please refer to this [MongoDB versions](https://www.mongodb.com/docs/drivers/java/sync/current/). 
 
-
+5. Remarks
+    - The abvoe mentioned software will be installed correctly in order to deployr the projects in the right manner. 
 
 /*
 Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 */
 
+## Design of database
+
+To begin with MongDB, please run your database in your local machine
+ : `brew services start mongodb-community@7.0`
+You can also quit the database whenever you want 
+ : `brew services stop mongodb-community@7.0`
+
+1. Make a relationship with objects within the database. 
+    - TREE like structures between objects
+    - 'Reference' type documentations to implements `$graphlookup` for the query
+
+To learn more about [references](https://www.mongodb.com/docs/manual/data-modeling/concepts/embedding-vs-references/#std-label-data-modeling-referencing), please refer to the link. 
+
+2. Mapping the schema relationships
+    - Mapping relationships between data entities affects your application's performance and scalability.
+    - The imported database may have many-to-many relationship between fields 
+    - To optimize queries, it should refer to the _ID in other collections. [Example](https://www.mongodb.com/docs/manual/data-modeling/schema-design-process/map-relationships/#std-label-data-modeling-map-relationships)
+
+3. The extended pattern 
+    - Here is the example [Extended pattern](https://www.mongodb.com/blog/post/building-with-patterns-the-extended-reference-pattern)
+
+
+4. Aggregation pipelines
+    - To build database pattern of tree structue, it applies [Aggregation](https://www.mongodb.com/docs/manual/core/aggregation-pipeline-optimization/)
 
 ## Add your files
 
 - [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
 - [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
 
-```
+```shell
 cd existing_repo
 git remote add origin https://gitlab.kis.agh.edu.pl/databases-2-2024/db2-4-kim-heesung-emanuel-borges.git
 git branch -M main
@@ -80,7 +101,6 @@ When you're ready to make this README your own, just edit this file and use the 
 Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
 
 
-
 ## Description
 This project is aim to design of database and implement of the utility with CLI. 
 From this project, you can refer to the results which was given by the lecturer. 
@@ -94,7 +114,7 @@ Let people know what your project can do specifically. Provide context and add a
 ## Project members
 **which contributions for what should be reported here !
 
-Barros Borges Emanuel\    
+Barros Borges Emanuel  
 Chakraborty Pritam\
 Heesung Kim
 
@@ -103,7 +123,6 @@ On some READMEs, you may see small images that convey metadata, such as whether 
 
 ## Visuals
 Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
 
 ## Usage
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
@@ -126,11 +145,7 @@ For people who want to make changes to your project, it's helpful to have some d
 
 You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
 ## License
-
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
