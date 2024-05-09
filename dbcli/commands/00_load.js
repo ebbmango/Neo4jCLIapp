@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const command = {
   command: "load",
   describe:
