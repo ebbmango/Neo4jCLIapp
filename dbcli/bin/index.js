@@ -17,6 +17,7 @@ const renameNode = require("../commands/11_renameNode");
 const findPaths = require("../commands/12_findPaths");
 
 yargs
+  // commands
   .command(load)
   .command(findAllChildren)
   .command(countChildren)
