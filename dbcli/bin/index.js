@@ -2,7 +2,11 @@
 
 const yargs = require("yargs");
 
+// preliminary
 const load = require("../commands/00_load.js");
+const connect = require("../commands/00_connect.js");
+
+// tasks
 const findAllChildren = require("../commands/01_findChildren.js");
 const countChildren = require("../commands/02_countChildren");
 const findGrandchildren = require("../commands/03_findGrandchildren");
@@ -17,8 +21,10 @@ const renameNode = require("../commands/11_renameNode");
 const findPaths = require("../commands/12_findPaths");
 
 yargs
-  // commands
+  // setup
   .command(load)
+  .command(connect)
+  // tasks
   .command(findAllChildren)
   .command(countChildren)
   .command(findGrandchildren)
