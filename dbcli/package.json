@@ -17,6 +17,7 @@
   "author": "https://github.com/ebbmango",
   "license": "ISC",
   "dependencies": {
+    "csv": "^6.3.8",
     "neo4j-driver": "^5.20.0",
     "yargs": "^17.7.2"
   }
