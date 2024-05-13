@@ -3,8 +3,8 @@ const fs = require("fs");
 const neo4j = require("neo4j-driver");
 
 // functions
-const { checkFileExists } = require("../functions/checkFileExists");
 const { segmentCSV } = require("../functions/segmentCSV");
+const { validateCSV } = require("../functions/validateCSV");
 
 // const { countRowsCSV } = require("../functions/countRowsCSV");
 // const { count } = require("console");
@@ -20,37 +20,22 @@ const command = {
     //
     // PART 1 - VALIDATION
 
-    // stowing only the arguments (command name excluded) in an array
-    const arguments = argv._.slice(1);
-
-    // making sure that the user has provided an argument to the command (that is, the path to the file)
-    if (arguments.length === 0) {
-      console.error("Error: You must provide the pathname of the CSV file.");
-      return;
+    try {
+      validateCSV(argv); // Checks whether the user has provided a valid file path
+    } catch (error) {
+      // If an error occurs...
+      console.error(error.message); // Informs the user
+      return false; // And halts program execution
     }
 
-    // retrieving the file path
-    const filePath = arguments[0];
-
-    // checking whether the file exists
-    checkFileExists(filePath)
-      .then((exists) => {
-        if (!exists) {
-          console.error(`File ${filePath} does not exist.`);
-          return false; // in case it doesn't, halts the program
-        }
-      })
-      .catch((err) => {
-        console.error("Error checking file existence:", err);
-        return false; // in case an error occurs, halts the program
-      });
+    console.log("helo, file is valid");
 
     //
     // PART 2 - POPULATING DATABASE
 
     // 2.1 - Reading from CSV
 
-    segmentCSV(filePath, 10000);
+    // segmentCSV(filePath, 10000);
 
     // 2.2 - Uploading to Database
 

@@ -7,7 +7,7 @@ function prettifyRow(row) {
   });
 }
 
-function batchesFromCSV(filePath, batches, totalRows, batchSize) {
+function batchFromCSV(filePath, batches, totalRows, batchSize) {
   let batch = [];
   let rowCount = 0;
 
