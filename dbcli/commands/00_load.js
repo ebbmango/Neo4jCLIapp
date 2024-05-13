@@ -5,6 +5,7 @@ const neo4j = require("neo4j-driver");
 // functions
 const { checkFileExists } = require("../functions/checkFileExists");
 const { countRowsCSV } = require("../functions/countRowsCSV");
+const { count } = require("console");
 
 // const segmentCSV = require("../functions/segmentCSV");
 
@@ -13,7 +14,7 @@ const command = {
   command: "load",
   describe:
     "Loads the database with the data provided by the CSV file passed as its argument.",
-  handler: (argv) => {
+  handler: async (argv) => {
     //
     // PART 1 - VALIDATION
 
@@ -47,13 +48,11 @@ const command = {
 
     // 2.1 - Reading from CSV
 
-    countRowsCSV(filePath)
-      .then((count) => {
-        console.log("Number of rows:", count);
-      })
-      .catch((error) => {
-        console.error("Error reading file:", error);
-      });
+    try {
+      const rowsCount = await countRowsCSV(filePath);
+    } catch (error) {
+      console.error("Error reading file:", error);
+    }
 
     // segmentCSV(filePath, 10000);
 
