@@ -1,39 +1,31 @@
-# DB2 4 Kim Heesung Emanuel Borges Chakraborty Pritam
+# DB2 - (Group 4) Kim Heesung & Emanuel Borges
 
 ## Introduction
-This project is aim to acheive follwoing :
+<!-- This project's aim is the following:
     a. Design the database of the given file
     b. Implement it with MongoDB
-    c. The API will retriev the data which satisfying the client's requirments
+    c. The API will retriev the data which satisfying the client's requirments -->
+
+Text comes here
 
 ## Installation & prerequisite
 
-1. JDK 
-    - Check your JDK (Java development kit) should be installed. If not, please refer to the simple guide [JDK installation](https://www.oracle.com/java/technologies/downloads/).
-    - Our projects will be based on the 'macOS' system. It is higlily recommended to utilizing JDK 8 or later. Of course, please be ready to use [Homebrew](https://docs.brew.sh/Installation).
+- **Docker Desktop**  
+    Please follow the instructions at the [The Official Docker Documentation](https://docs.docker.com/get-docker/) website to download Docker in your local machine.
 
-2. Maven
-    - To create projects, it is recommended to build it with Maven. For this project, MongoDB will have dependencies using Maven.
-    - Here is the simple guide to installation [Maven](https://maven.apache.org/install.html).
+- **Command Line Interface**
+    1. Download this repository into your local machine.
 
-3. MongoDB Java driver
-    - To run your Java(JDK) on your machine, the driver should be installed. If you decide to build it with Maven, there are synchorous Java applicatoin with MongoDB. Here is the brief introduction of [the driver](https://www.mongodb.com/docs/drivers/java/sync/current/).
-    - To completely install the driver, you should add dependencies on your own pom.xml in your project directory. Please refer to [Add MongoDB as a Dependency](https://www.mongodb.com/docs/drivers/java/sync/current/quick-start/). 
+    2. Navigate to the repository's *dbcli* directory.
 
-4. MongoDB
-    - Recommend install MongoDB Community version, which would be open-source program and can deploy on your local machine. 
-    - If you want to incorporate another version such as MongoDB Atlas or Enterprise, please refer to this [MongoDB versions](https://www.mongodb.com/docs/drivers/java/sync/current/). 
+    3. Once in the *dbcli* directory, choose the installation option that suits you the most:
 
-5. Remarks
-    - The abvoe mentioned software will be installed correctly in order to deployr the projects in the right manner. 
-
-/*
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-*/
+        1. For those comfortable with enabling **root access**: `sudo npm uninstall -g .` installs the CLI application **globally**. This means that you can use it **anywhere in your machine** by simply running `dbcli <args>`.
+        2. For those who would rather not, `npm install .` installs the CLI application and makes it available for usage **in the *dbcli* folder exclusively**. Additionally, [npx](https://docs.npmjs.com/cli/v8/commands/npx) will be needed to run the application: `npx dbcli <args>`
 
 ## Design of database
 
-To begin with MongDB, please run your database in your local machine
+<!-- To begin with MongDB, please run your database in your local machine
  : `brew services start mongodb-community@7.0`
 You can also quit the database whenever you want 
  : `brew services stop mongodb-community@7.0`
@@ -56,41 +48,8 @@ To learn more about [references](https://www.mongodb.com/docs/manual/data-modeli
 4. Aggregation pipelines
     - To build database pattern of tree structue, it applies [Aggregation](https://www.mongodb.com/docs/manual/core/aggregation-pipeline-optimization/)
 
-## Add your files
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```shell
-cd existing_repo
-git remote add origin https://gitlab.kis.agh.edu.pl/databases-2-2024/db2-4-kim-heesung-emanuel-borges.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.kis.agh.edu.pl/databases-2-2024/db2-4-kim-heesung-emanuel-borges/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
+*** -->
 
 # Editing this README
 
