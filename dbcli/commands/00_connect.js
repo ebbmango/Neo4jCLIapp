@@ -12,22 +12,22 @@ const command = {
       "neo4j:latest",
     ]);
 
-    // Listen for stdout data
+    // Listens for stdout data (and formats it adequately)
     dockerProcess.stdout.on("data", (data) => {
       console.log(data.toString("utf-8").split("INFO")[1].trim());
     });
 
-    // Listen for stderr data
+    // Listens for stderr data
     dockerProcess.stderr.on("data", (data) => {
       console.error(data.toString("utf-8"));
     });
 
-    // Listen for errors
+    // Listens for errors
     dockerProcess.on("error", (error) => {
       console.error(`Error spawning Docker process: ${error}`);
     });
 
-    // Listen for process exit
+    // Listens for process exit
     dockerProcess.on("close", (code) => {
       console.log(`Docker process exited with code ${code}`);
     });

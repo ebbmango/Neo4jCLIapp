@@ -1,11 +1,12 @@
 // libraries
 const fs = require("fs");
-const csv = require('csv-parser');
 const neo4j = require("neo4j-driver");
 
 // functions
 const { checkFileExists } = require("../functions/checkFileExists");
-const { batchFromCSV } = require("../functions/batchFromCSV");
+const { countRowsCSV } = require("../functions/countRowsCSV");
+
+// const segmentCSV = require("../functions/segmentCSV");
 
 // command
 const command = {
@@ -45,6 +46,16 @@ const command = {
     // PART 2 - POPULATING DATABASE
 
     // 2.1 - Reading from CSV
+
+    countRowsCSV(filePath)
+      .then((count) => {
+        console.log("Number of rows:", count);
+      })
+      .catch((error) => {
+        console.error("Error reading file:", error);
+      });
+
+    // segmentCSV(filePath, 10000);
 
     // 2.2 - Uploading to Database
 
