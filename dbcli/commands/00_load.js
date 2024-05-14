@@ -34,10 +34,7 @@ const command = {
     }
 
     // 03 - Reading the whole CSV file:
-    const batchSize = 10000;
-    let batches = 0;
     let rowCount = 0;
-    let batch = [];
 
     fs.createReadStream(filePath)
       .pipe(
@@ -48,22 +45,10 @@ const command = {
       )
       .on("data", async (row) => {
         const prettyRow = prettifyRow(row);
-        batch.push(prettyRow);
+  
+        // data handling comes here
+
         rowCount++;
-
-        // if the max size for a batch has been reached OR if all rows have been read
-        if (rowCount % batchSize === 0 || rowCount === totalRows) {
-          try {
-            batches++;
-            const filePath = await writeBatchToCSV(batch);
-            console.log(`Batch no. ${batches} written to file.`);
-            await uploadBatch(filePath);
-          } catch (error) {
-            console.error("Error writing CSV file:", error);
-          }
-
-          batch = [];
-        }
       })
       .on("end", () => {
         console.log(batches.length + " batches have been created.");
