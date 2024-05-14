@@ -17,7 +17,7 @@ function validateCSV(argv) {
     throw new Error(`File ${filePath} does not exist.`);
   }
 
-  return true;
+  return filePath;
 }
 
 module.exports = { validateCSV };
