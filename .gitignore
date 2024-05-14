@@ -1,5 +1,6 @@
 node_modules
 credentials.txt
+taxonomy_iw.csv
 
-import/*
-!import/.gitkeep
+dbcli/import/*
+!dbcli/import/.gitkeep
