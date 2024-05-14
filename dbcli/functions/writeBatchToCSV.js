@@ -1,8 +1,10 @@
 const fs = require("fs");
+const path = require("path");
 
 const writeBatchToCSV = (batch) => {
   return new Promise((resolve, reject) => {
-    const tempFilePath = `temp_file.csv`;
+    const importDir = path.resolve(__dirname, "../import");
+    const tempFilePath = `${importDir}/temp_file.csv`;
     const stream = fs.createWriteStream(tempFilePath);
 
     stream.once("open", (fd) => {
