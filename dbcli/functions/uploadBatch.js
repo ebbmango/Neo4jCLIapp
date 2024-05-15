@@ -1,24 +1,23 @@
 const neo4j = require("neo4j-driver");
 
-async function uploadBatch(filePath) {
-  const driver = neo4j.driver("bolt://localhost:7687");
+async function uploadBatch(driver) {
   const session = driver.session();
 
-  const cypherQuery = `LOAD CSV WITH HEADERS FROM 'file:///${filePath}' AS row \
+  // console.log(filePath);
+
+  const cypherQuery = `LOAD CSV WITH HEADERS FROM 'file:///temp_file.csv' AS row \
             MERGE (c:Category {name: row.Category}) \
             MERGE (s:Category {name: row.Subcategory}) \
             MERGE (c)-[:HAS_SUBCATEGORY]->(s)`;
 
-  try {
-    await session.run(cypherQuery);
-    console.log("Data loaded successfully.");
-  } catch (error) {
-    console.error("Error loading data:", error);
-    return;
-  } finally {
-    await session.close();
-    await driver.close();
-  }
+  await session.run(cypherQuery).subscribe({
+    onCompleted: () => {
+      session.close(); // Closes the session.
+    },
+    onError: (error) => {
+      throw new Error(error);
+    },
+  });
 }
 
 module.exports = { uploadBatch };
