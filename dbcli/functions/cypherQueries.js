@@ -14,9 +14,9 @@ const setUpConstraints = async (session) => {
 const loadCategories = async (session, filePath) => {
   const query = `
   LOAD CSV FROM $filePath AS row
+  WITH trim(row[0]) AS category, trim(row[1]) AS subcategory
+  WHERE category IS NOT NULL AND subcategory IS NOT NULL
   CALL {
-    WITH trim(row[0]) AS category, trim(row[1]) AS subcategory
-    WHERE category IS NOT NULL AND subcategory IS NOT NULL
     MERGE (c:Category {name: category})
     MERGE (s:Category {name: subcategory})
   } IN TRANSACTIONS OF 100000 ROWS;
@@ -28,13 +28,13 @@ const loadCategories = async (session, filePath) => {
 const loadRelationships = async (session, filePath) => {
   const query = `
     LOAD CSV FROM $filePath AS row
+    WITH trim(row[0]) AS category, trim(row[1]) AS subcategory
+    WHERE category IS NOT NULL AND subcategory IS NOT NULL
     CALL {
-      WITH trim(row[0]) AS category, trim(row[1]) AS subcategory
-      WHERE category IS NOT NULL AND subcategory IS NOT NULL
       MATCH (c:Category {name: category})
       MATCH (s:Category {name: subcategory})
       MERGE (c)-[:HAS_SUBCATEGORY]->(s)
-    RETURN count(*)
+    } IN TRANSACTIONS OF 100000 ROWS;
   `;
 
   await session.run(query, { filePath: `file:///import/${filePath}` });
