@@ -1,4 +1,6 @@
 const fs = require("fs");
+const path = require("path");
+
 
 function validateCSV(argv) {
   // Stows only the arguments (command name excluded) in an array.
@@ -12,9 +14,13 @@ function validateCSV(argv) {
   // Retrieves the file path.
   const filePath = arguments[0];
 
+  const importDirectory = path.resolve(__dirname, "../import");
+
+  const fullPath = path.join(importDirectory, filePath);
+
   // Checks whether the file exists...
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`File ${filePath} does not exist.`);
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(`File ${filePath} does not exist in the import directory.`);
   }
 
   return filePath;
