@@ -9,7 +9,7 @@ async function uploadCSV(driver, filePath) {
 
   try {
     // Sets up constraints.
-    await setupConstraints(session);
+    await setUpConstraints(session);
 
     // Clears existing data (in case the user restarts a docker container instead of using the "connect" command).
     await session.run("MATCH (n) DETACH DELETE n");
@@ -28,3 +28,5 @@ async function uploadCSV(driver, filePath) {
     await driver.close();
   }
 }
+
+module.exports = { uploadCSV };

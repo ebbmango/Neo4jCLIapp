@@ -7,8 +7,7 @@ const readline = require("readline");
 // functions
 const { validateCSV } = require("../functions/validateCSV");
 const { countRowsCSV } = require("../functions/countRowsCSV");
-const { writeBatchToCSV } = require("../functions/writeBatchToCSV");
-const { uploadBatch } = require("../functions/uploadBatch");
+const { uploadCSV } = require("../functions/uploadCSV");
 
 // command
 const command = {
@@ -20,6 +19,7 @@ const command = {
     let filePath;
     try {
       filePath = validateCSV(argv); // Checks whether the user has provided a valid file path
+      console.log("file has been found in the directory");
     } catch (error) {
       // If an error occurs...
       console.error(error.message); // Informs the user
@@ -28,7 +28,7 @@ const command = {
 
     const driver = neo4j.driver("bolt://localhost:7687");
 
-    console.log(filePath);
+    uploadCSV(driver, filePath);
   },
 };
 
