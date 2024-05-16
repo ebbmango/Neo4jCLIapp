@@ -20,8 +20,10 @@ Text comes here
 
     3. Once in the *dbcli* directory, choose the installation option that suits you the most:
 
-        1. For those comfortable with enabling **root access**: `sudo npm uninstall -g .` installs the CLI application **globally**. This means that you can use it **anywhere in your machine** by simply running `dbcli <args>`.
+        1. For those comfortable with enabling **root access**: `sudo npm install -g .` installs the CLI application **globally**. This means that you can use it **anywhere in your machine** by simply running `dbcli <args>`.
         2. For those who would rather not, `npm install .` installs the CLI application and makes it available for usage **in the *dbcli* folder exclusively**. Additionally, [npx](https://docs.npmjs.com/cli/v8/commands/npx) will be needed to run the application: `npx dbcli <args>`
+
+obs: running `bin/index.js <command> <args>` also works 
 
 ## Design of database
 
