@@ -8,7 +8,6 @@ const command = {
   describe:
     "Loads the database with the data provided by the CSV file passed as its argument.",
   handler: async (argv) => {
-
     let filePath;
 
     try {
@@ -20,7 +19,7 @@ const command = {
       return false; // And halts program execution
     }
 
-    uploadCSV(filePath);
+    await uploadCSV(filePath);
   },
 };
 

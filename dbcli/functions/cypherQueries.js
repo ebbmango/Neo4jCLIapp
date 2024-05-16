@@ -17,7 +17,6 @@ const setUpConstraints = async (session) => {
     "CREATE CONSTRAINT IF NOT EXISTS FOR (c:Category) REQUIRE c.name IS UNIQUE;";
 
   await session.run(query);
-  console.log("Constraints have been set up.");
 };
 
 // Loading all categories and subcategories.
@@ -34,7 +33,6 @@ const loadCategories = async (session, filePath) => {
   `;
 
   await session.run(query, { filePath: `file:///${filePath}` });
-  console.log("Load transactions (for nodes) have been run.");
 };
 
 const loadRelationships = async (session, filePath) => {
@@ -51,7 +49,11 @@ const loadRelationships = async (session, filePath) => {
   `;
 
   await session.run(query, { filePath: `file:///${filePath}` });
-  console.log("Load transactions (for relationships) have been run.");
 };
 
-module.exports = { setUpConstraints, loadCategories, loadRelationships, countRowsCSV };
+module.exports = {
+  setUpConstraints,
+  loadCategories,
+  loadRelationships,
+  countRowsCSV,
+};

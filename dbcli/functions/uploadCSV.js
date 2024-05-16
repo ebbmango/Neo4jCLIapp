@@ -4,31 +4,34 @@ const {
   setUpConstraints,
   loadCategories,
   loadRelationships,
-  countRowsCSV,
 } = require("./cypherQueries");
 
 async function uploadCSV(filePath) {
+  const { default: ora } = await import("ora");
 
   const driver = neo4j.driver("bolt://localhost:7687");
   const session = driver.session();
 
   try {
-    const rows = await countRowsCSV(session, filePath)
-    console.log(rows)
+    // Clears existing data (in case the user restarts a docker container instead of using the "connect" command).
+    await session.run("MATCH (n) DETACH DELETE n");
+
+    // Sets up constraints.
+    await setUpConstraints(session);
+
+    // Loads categories and subcategories as "Category" nodes.
+    const nodeSpinner = ora("Loading Nodes").start();
+    updateSpinner(nodeSpinner);
+    await loadCategories(session, filePath);
+    nodeSpinner.clear()
+    nodeSpinner.succeed('Nodes loaded successfully.');
     
-    // // Sets up constraints.
-    // await setUpConstraints(session);
-
-    // // Clears existing data (in case the user restarts a docker container instead of using the "connect" command).
-    // await session.run("MATCH (n) DETACH DELETE n");
-
-    // // Loads categories and subcategories as "Category" nodes.
-    // await loadCategories(session, filePath);
-
-    // // Creates relationships between categories and subcategories.
-    // await loadRelationships(session, filePath);
-
-    console.log("CSV file processed successfully.");
+    // Creates relationships between categories and subcategories.
+    const relSpinner = ora("Loading Relationships").start();
+    updateSpinner(relSpinner);
+    await loadRelationships(session, filePath);
+    relSpinner.clear()
+    relSpinner.succeed('Relationships loaded successfully.');
   } catch (error) {
     console.error("Error processing CSV file:", error);
   } finally {
@@ -38,3 +41,22 @@ async function uploadCSV(filePath) {
 }
 
 module.exports = { uploadCSV };
+
+function updateSpinner(spinner) {
+  const colors = ["green", "yellow", "blue", "magenta", "cyan"];
+  const dots = ["", ".", "..", "..."];
+
+  setInterval(() => {
+    // Updates color
+    spinner.color = colors[nextIndex(colors, spinner.color)];
+    
+    // Updates dots
+    const currentDots = (spinner.text.slice(-3).replace(/\w/g, ""))
+    spinner.text = spinner.text.replace(/[.]/g, "") + dots[nextIndex(dots, currentDots)];
+      
+  }, 1000);
+}
+
+function nextIndex(array, element) {
+  return (array.findIndex(e => e === element) + 1) % array.length;
+}
