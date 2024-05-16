@@ -20,7 +20,7 @@ const command = {
       return false; // And halts program execution
     }
 
-    uploadCSV(driver, filePath);
+    uploadCSV(filePath);
   },
 };
 
