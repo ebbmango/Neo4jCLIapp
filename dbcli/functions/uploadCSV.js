@@ -46,13 +46,15 @@ function updateSpinner(spinner) {
   const colors = ["green", "yellow", "blue", "magenta", "cyan"];
   const dots = ["", ".", "..", "..."];
 
+  let dotIndex = 0;
+
   setInterval(() => {
     // Updates color
     spinner.color = colors[nextIndex(colors, spinner.color)];
-    
+
     // Updates dots
-    const currentDots = (spinner.text.slice(-3).replace(/\w/g, ""))
-    spinner.text = spinner.text.replace(/[.]/g, "") + dots[nextIndex(dots, currentDots)];
+    spinner.text = spinner.text.replace(/[.]/g, "") + dots[dotIndex];
+    dotIndex = (dotIndex + 1) % dots.length;
       
   }, 1000);
 }
