@@ -6,8 +6,8 @@ const command = {
   command: "connect",
   describe: "Creates a Neo4J database and connects to it.",
   handler: async (argv) => {
-    const importDir = path.resolve(__dirname,'../import');
-    console.log(importDir)
+    const importDir = path.resolve(__dirname, "../import");
+    console.log(importDir);
 
     // Get the current user ID and group ID
     const uid = os.userInfo().uid;
@@ -20,6 +20,8 @@ const command = {
       "--env=NEO4J_AUTH=none",
       "--user", `${uid}:${gid}`,
       "-v", `${importDir}:/var/lib/neo4j/import`,
+      "-e NEO4J_dbms_memory_heap_initial__size=4G",
+      "-e NEO4J_dbms_memory_heap_max__size=4G",
       "neo4j:latest",
     ]);
 
