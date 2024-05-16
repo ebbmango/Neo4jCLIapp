@@ -1,7 +1,6 @@
 // libraries
 const fs = require("fs");
 const { parse } = require("csv-parse");
-const neo4j = require("neo4j-driver");
 const readline = require("readline");
 
 // functions
@@ -25,8 +24,6 @@ const command = {
       console.error(error.message); // Informs the user
       return false; // And halts program execution
     }
-
-    const driver = neo4j.driver("bolt://localhost:7687");
 
     uploadCSV(driver, filePath);
   },
