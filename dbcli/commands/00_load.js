@@ -1,11 +1,5 @@
-// libraries
-const fs = require("fs");
-const { parse } = require("csv-parse");
-const readline = require("readline");
-
 // functions
 const { validateCSV } = require("../functions/validateCSV");
-const { countRowsCSV } = require("../functions/countRowsCSV");
 const { uploadCSV } = require("../functions/uploadCSV");
 
 // command
