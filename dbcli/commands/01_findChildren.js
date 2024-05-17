@@ -1,39 +1,25 @@
+// libraries
 const neo4j = require("neo4j-driver");
+
+// functions
+const checkArguments = require("../functions/checkArguments");
+const checkConnection = require("../functions/checkConnection");
 
 const command = {
   command: "1",
   describe: "Finds all children of a given node.",
-  handler: (argv) => {
-    // console.log("Task 01 - Work in progress");
+  handler: async (argv) => {
+    // Stows only the arguments (discards the command name) in a dedicated variable.
     const arguments = argv._.slice(1);
 
-    const driver = neo4j.driver("bolt://localhost:7687");
-    const session = driver.session();
+    // If the user provides more arguments than is expected by the command, warn them and stop the execution.
+    await checkArguments(arguments, 1);
 
-    session
-      .run(
-        // Query
-        `
-      MATCH (n:Category)
-      WHERE n.name = $category
-      RETURN n
-      `,
-        { category: arguments[0] }
-      )
-      .then((result) => {
-        result.records.forEach((record) => {
-          console.log(record.get("n")); // Logs the node
-        });
-      })
-      .catch((error) => {
-        console.error("Error executing query:", error);
-      })
-      .finally(() => {
-        session.close(); // Closes the session
-        driver.close(); // Closes the driver
-      });
+    // If a connection to the database cannot be established, inform the user and stop the execution.
+    await checkConnection();
 
-    // console.log(arguments)
+    // const driver = neo4j.driver("bolt://localhost:7687");
+    // const session = driver.session();
   },
 };
 

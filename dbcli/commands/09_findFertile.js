@@ -6,15 +6,16 @@ const checkArguments = require("../functions/checkArguments");
 const checkConnection = require("../functions/checkConnection");
 
 const command = {
-  command: "4",
-  describe: "Finds all parents of a given node.",
+  command: "9",
+  describe:
+    "Finds the nodes with the most children (there could be more than one).",
   handler: async (argv) => {
     // Validation
     const arguments = argv._.slice(1);
-    await checkArguments(arguments, 1);
+    await checkArguments(arguments, 0);
     await checkConnection();
 
-    console.log("Task 04 - Work in progress");
+    console.log("Task 09 - Work in progress");
   },
 };
 

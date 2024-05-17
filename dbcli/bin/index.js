@@ -15,8 +15,8 @@ const countParents = require("../commands/05_countParents");
 const findGrandparents = require("../commands/06_findGrandparents");
 const countUnique = require("../commands/07_countUnique");
 const findRoot = require("../commands/08_findRoot");
-const findBarren = require("../commands/09_findBarren");
-const findFertile = require("../commands/10_findFertile");
+const findFertile = require("../commands/09_findFertile");
+const findBarren = require("../commands/10_findBarren");
 const renameNode = require("../commands/11_renameNode");
 const findPaths = require("../commands/12_findPaths");
 
