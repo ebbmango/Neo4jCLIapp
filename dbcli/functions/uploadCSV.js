@@ -4,7 +4,7 @@ const {
   setUpConstraints,
   loadCategories,
   loadRelationships,
-} = require("./cypherQueries");
+} = require("./uploadQueries");
 
 async function uploadCSV(filePath) {
   const { default: ora } = await import("ora");
