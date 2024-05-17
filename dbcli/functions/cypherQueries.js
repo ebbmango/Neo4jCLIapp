@@ -1,16 +1,6 @@
 // As explained here (https://neo4j.com/docs/getting-started/data-import/csv-import/#optimizing-load-csv),
 // to optimize our LOAD CSV query for performance, we should separate node and relationship creation.
 
-// Counting the total amount of rows in the provided CSV file
-const countRowsCSV = async (session, filePath) => {
-  const query = `
-  LOAD CSV FROM $filePath AS row
-  RETURN count(row) AS totalRows;
-  `;
-  const result = await session.run(query, { filePath: `file:///${filePath}` });
-  return result.records[0].get("totalRows").toInt();
-};
-
 // Setting up UNIQUENESS constraint.
 const setUpConstraints = async (session) => {
   const query =
@@ -55,5 +45,4 @@ module.exports = {
   setUpConstraints,
   loadCategories,
   loadRelationships,
-  countRowsCSV,
 };
