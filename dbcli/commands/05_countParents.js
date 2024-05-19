@@ -9,7 +9,7 @@ const validateConnection = require("../functions/validateConnection");
 const { countParentsQuery: query } = require("../queries/cypherQueries");
 
 const command = {
-  command: "5",
+  command: ["5", "count-parents"],
   describe: "Counts all parents of a given node.",
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");

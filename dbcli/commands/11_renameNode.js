@@ -6,7 +6,7 @@ const validateArguments = require("../functions/validateArguments");
 const validateConnection = require("../functions/validateConnection");
 
 const command = {
-  command: "11",
+  command: ["11", "rename"],
   describe: "Renames a given node.",
   handler: async (argv) => {
     // Validation

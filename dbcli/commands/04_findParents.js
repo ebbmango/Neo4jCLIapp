@@ -10,7 +10,7 @@ const logsFullArray = require("../functions/logsFullArray");
 const { findParentsQuery: query } = require("../queries/cypherQueries");
 
 const command = {
-  command: "4",
+  command: ["4", "find-parents"],
   describe: "Finds all parents of a given node.",
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");

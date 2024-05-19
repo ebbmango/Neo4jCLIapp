@@ -9,7 +9,7 @@ const validateConnection = require("../functions/validateConnection");
 const { countChildrenQuery: query } = require("../queries/cypherQueries");
 
 const command = {
-  command: "2",
+  command: ["2", "count-children"],
   describe: "Counts all children of a given node.",
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");

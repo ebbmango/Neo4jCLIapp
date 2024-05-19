@@ -6,7 +6,7 @@ const validateArguments = require("../functions/validateArguments");
 const validateConnection = require("../functions/validateConnection");
 
 const command = {
-  command: "9",
+  command: ["9", "find-fertile"],
   describe:
     "Finds the nodes with the most children (there could be more than one).",
   handler: async (argv) => {

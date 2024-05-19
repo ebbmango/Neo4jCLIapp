@@ -9,7 +9,7 @@ const validateConnection = require("../functions/validateConnection");
 const { countUniqueNodesQuery: query } = require("../queries/cypherQueries");
 
 const command = {
-  command: "7",
+  command: ["7", "count-unique"],
   describe: "Counts how many uniquely named nodes there are.",
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");

@@ -6,7 +6,7 @@ const validateArguments = require("../functions/validateArguments");
 const validateConnection = require("../functions/validateConnection");
 
 const command = {
-  command: "10",
+  command: ["10", "find-barren"],
   describe:
     "Finds the nodes with the least children (there could be more than one). Childless nodes are not considered.",
   handler: async (argv) => {

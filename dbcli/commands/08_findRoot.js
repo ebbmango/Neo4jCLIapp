@@ -9,7 +9,7 @@ const logsFullArray = require("../functions/logsFullArray");
 const { findRandomRoot: query } = require("../queries/cypherQueries");
 
 const command = {
-  command: "8",
+  command: ["8", "find-root"],
   describe:
     "Finds a root node (i.e., one which is not a subcategory of any other node).",
   handler: async (argv) => {

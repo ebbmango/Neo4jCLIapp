@@ -10,7 +10,7 @@ const logsFullArray = require("../functions/logsFullArray");
 const { findGrandchildrenQuery: query } = require("../queries/cypherQueries");
 
 const command = {
-  command: "3",
+  command: ["3", "find-grandchildren"],
   describe: "Finds all grandchildren of a given node.",
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");

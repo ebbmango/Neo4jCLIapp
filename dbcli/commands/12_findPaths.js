@@ -6,7 +6,7 @@ const validateArguments = require("../functions/validateArguments");
 const validateConnection = require("../functions/validateConnection");
 
 const command = {
-  command: "12",
+  command: ["12", "find-paths"],
   describe:
     "Finds all paths between two given nodes, with directed edges from the first to the second node.",
   handler: async (argv) => {
