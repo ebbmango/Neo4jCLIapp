@@ -1,4 +1,4 @@
-// libraries
+// Libraries
 const neo4j = require("neo4j-driver");
 
 // Functions
@@ -19,7 +19,7 @@ const command = {
     const arguments = argv._.slice(1); // Stows the received arguments to a dedicated variable.
     const argsLength = arguments.length; // Creates a handler for the length of the args array.
     
-    // Ensures there is the exact amount of expected arguments.
+    // Ensures there is the exact amount of expected arguments. (*)
     if (argsLength > 1) {
       // Builds error message.
       const errorHeader = chalk.bgRed(" ERROR: ");
@@ -70,3 +70,6 @@ const runQuery = async (session, queryParameters) => {
 };
 
 module.exports = command;
+
+// (*): This function – instead of the usual validateArguments() – is necessary because for this specific case,
+// there are TWO amounts of arguments that can be accepted (instead of only one, which is the case for all other commands).
