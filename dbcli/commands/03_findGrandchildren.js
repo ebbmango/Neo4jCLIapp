@@ -11,7 +11,7 @@ const printResult = require("../functions/printResult");
 const findGrandchildren = async (session, nodeName) => {
   const query = // This query should find all grandchildren of the node whose name is given by the "nodeName" parameter
     " \
-    MATCH (node:Category {name: $categoryName})-[*2]->(grandchild:Category) \
+    MATCH (node:Category {name: $categoryName})-[:HAS_SUBCATEGORY*2]->(grandchild:Category) \
     RETURN grandchild \
     ORDER BY grandchild.name ASC \
     ";
