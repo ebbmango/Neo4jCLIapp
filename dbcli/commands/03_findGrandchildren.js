@@ -9,7 +9,7 @@ const printResult = require("../functions/printResult");
 
 // runner function for the relevant Cypher Query
 const findGrandchildren = async (session, nodeName) => {
-  const query = // This query should find all children of the node whose name is given by the "nodeName" parameter
+  const query = // This query should find all grandchildren of the node whose name is given by the "nodeName" parameter
     " \
     MATCH (node:Category {name: $categoryName})-[*2]->(grandchild:Category) \
     RETURN grandchild \
