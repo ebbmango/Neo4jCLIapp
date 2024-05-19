@@ -1,1 +1,5 @@
 1. Make the load command accept files ANYWHERE;
+
+2. Change validateArguments function to accept multiple amounts;
+
+3. Add limit flag to all "find" commands;
