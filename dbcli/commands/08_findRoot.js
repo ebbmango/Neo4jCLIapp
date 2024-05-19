@@ -43,7 +43,7 @@ const command = {
       const errorHeader = chalk.bgRed(" ERROR: ");
       const errorMessage = chalk.red.bold(`Received argument of wrong type.`);
       const expectedLine = `Expected: number`;
-      const receivedLine = `Received: ${typeof amount}`;
+      const receivedLine = `Received: ${typeof amount} (${chalk.yellow(`"${amount}"`)})`;
       // Displays error message.
       console.log(`${errorHeader} ${errorMessage}\n${expectedLine}\n${receivedLine}`);
       // Terminates the program.
