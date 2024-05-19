@@ -41,6 +41,15 @@ ORDER BY grandparent.name ASC
 // 07 - This query COUNTS ALL UNIQUELY NAMED NODES.
 const countUniqueNodesQuery = `MATCH (node:Category) RETURN COUNT (DISTINCT node.name) AS uniqueCount`;
 
+// 08 - This query RETRIEVES A RANDOM ROOT NODE
+const findRandomRoot = `
+MATCH (root)-[:HAS_SUBCATEGORY]->()
+WHERE NOT exists( ()-[:HAS_SUBCATEGORY]->(root) )
+RETURN DISTINCT root.name, rand() AS r 
+ORDER BY r
+LIMIT $amount
+`
+
 module.exports = {
   findChildrenQuery,
   countChildrenQuery,
@@ -49,4 +58,5 @@ module.exports = {
   countParentsQuery,
   findGrandparentsQuery,
   countUniqueNodesQuery,
+  findRandomRoot,
 };
