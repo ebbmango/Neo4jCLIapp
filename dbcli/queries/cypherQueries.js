@@ -42,7 +42,7 @@ ORDER BY grandparent.name ASC
 const countUniqueNodesQuery = `MATCH (node:Category) RETURN COUNT (DISTINCT node.name) AS uniqueCount`;
 
 // 08 - This query FINDS RANDOM ROOT NODES in the amount given by the "amount" parameter.
-const findRandomRoot = `
+const findRandomRootQuery = `
 MATCH (root)-[:HAS_SUBCATEGORY]->()
 WHERE NOT exists( ()-[:HAS_SUBCATEGORY]->(root) )
 RETURN DISTINCT root.name, rand() AS r 
@@ -74,5 +74,5 @@ module.exports = {
   countParentsQuery,
   findGrandparentsQuery,
   countUniqueNodesQuery,
-  findRandomRoot,
+  findRandomRootQuery,
 };

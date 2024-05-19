@@ -6,7 +6,7 @@ const validateConnection = require("../functions/validateConnection");
 const logsFullArray = require("../functions/logsFullArray");
 
 // Queries
-const { findRandomRoot: query } = require("../queries/cypherQueries");
+const { findRandomRootQuery: query } = require("../queries/cypherQueries");
 
 const command = {
   command: ["8", "find-root"],
