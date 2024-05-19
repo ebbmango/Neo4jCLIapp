@@ -16,7 +16,7 @@ async function validateArguments(arguments, expectedAmount) {
     console.log(`${errorHeader} ${errorMessage}\n${expectedLine}\n${receivedLine}`);
 
     // Terminates the program.
-    process.exit(0);
+    process.exit(0); // (*)
   }
 }
 
@@ -28,3 +28,5 @@ const stringify = async (args) => {
 };
 
 module.exports = validateArguments;
+
+// (*): Using process.exit(0) instead of throwing an error for better code readability and more precise chalking of the error message. 

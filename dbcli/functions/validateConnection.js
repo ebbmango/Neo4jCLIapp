@@ -18,8 +18,10 @@ async function validateConnection() {
     console.log(`${errorHeader} ${errorMessage}\nMake sure to be running ${command} on the background.`);
     
     // Terminates the program.
-    process.exit(0);
+    process.exit(0); // (*)
   }
 }
 
 module.exports = validateConnection;
+
+// (*): Using process.exit(0) instead of throwing an error for better code readability and more precise chalking of the error message.
