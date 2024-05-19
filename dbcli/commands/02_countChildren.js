@@ -8,7 +8,7 @@ const printResult = require("../functions/printResult");
 
 // runner function for the relevant Cypher Query
 const countChildren = async (session, nodeName) => {
-  const query = // This query should find all children of the node whose name is given by the "nodeName" parameter
+  const query = // This query should count all children of the node whose name is given by the "nodeName" parameter
     " \
     MATCH (node:Category {name: $categoryName})-[:HAS_SUBCATEGORY]->(child:Category) \
     RETURN COUNT (child) AS childrenCount \
