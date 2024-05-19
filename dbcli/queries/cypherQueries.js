@@ -1,37 +1,37 @@
-// 01 - This query FINDS ALL CHILDREN of the node whose name is given by the "nodeName" parameter
+// 01 - This query FINDS ALL CHILDREN of the node whose name is given by the "categoryName" parameter
 const findChildrenQuery = ` 
 MATCH (node:Category {name: $categoryName})-[:HAS_SUBCATEGORY]->(child:Category) 
 RETURN child 
 ORDER BY child.name ASC 
 `;
 
-// 02 - This query COUNTS ALL CHILDREN of the node whose name is given by the "nodeName" parameter
+// 02 - This query COUNTS ALL CHILDREN of the node whose name is given by the "categoryName" parameter
 const countChildrenQuery = ` 
 MATCH (node:Category {name: $categoryName})-[:HAS_SUBCATEGORY]->(child:Category) 
 RETURN COUNT (child) AS childrenCount 
 `;
 
-// 03 - This query FINDS ALL GRANDCHILDREN of the node whose name is given by the "nodeName" parameter
+// 03 - This query FINDS ALL GRANDCHILDREN of the node whose name is given by the "categoryName" parameter
 const findGrandchildrenQuery = `
 MATCH (node:Category {name: $categoryName})-[:HAS_SUBCATEGORY*2]->(grandchild:Category)
 RETURN grandchild
 ORDER BY grandchild.name ASC
 `;
 
-// 04 - This query FINDS ALL PARENTS of the node whose name is given by the "nodeName" parameter
+// 04 - This query FINDS ALL PARENTS of the node whose name is given by the "categoryName" parameter
 const findParentsQuery = ` 
 MATCH (node:Category {name: $categoryName})<-[:HAS_SUBCATEGORY]-(parent:Category) 
 RETURN parent 
 ORDER BY parent.name ASC 
 `;
 
-// 05 - This query COUNTS ALL PARENTS of the node whose name is given by the "nodeName" parameter
+// 05 - This query COUNTS ALL PARENTS of the node whose name is given by the "categoryName" parameter
 const countParentsQuery = ` 
 MATCH (node:Category {name: $categoryName})<-[:HAS_SUBCATEGORY]-(parent:Category) 
 RETURN COUNT (parent) AS parentsCount 
 `;
 
-// 06 - This query FINDS ALL GRANDPARENTS of the node whose name is given by the "nodeName" parameter
+// 06 - This query FINDS ALL GRANDPARENTS of the node whose name is given by the "categoryName" parameter
 const findGrandparentsQuery = ` 
 MATCH (node:Category {name: $categoryName})<-[:HAS_SUBCATEGORY*2]-(grandparent:Category) 
 RETURN grandparent 
@@ -75,6 +75,13 @@ RETURN node, childCount
 ORDER BY node.name ASC 
 `;
 
+// 11 - This query RENAMES the node whose name is given by the "categoryName" parameter.
+const renameQuery = `
+MATCH (node:Category {name: $categoryName})
+SET node.name = $newName
+RETURN node
+`
+
 module.exports = {
   findChildrenQuery,
   countChildrenQuery,
@@ -86,5 +93,6 @@ module.exports = {
   findRandomRootQuery,
   countMaxChildrenQuery,
   countMinChildrenQuery,
-  findNodesWithChildrenAmountQuery
+  findNodesWithChildrenAmountQuery,
+  renameQuery
 };
