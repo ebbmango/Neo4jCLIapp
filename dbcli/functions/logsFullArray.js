@@ -9,7 +9,10 @@ async function logsFullArray(array) {
       .inspect(array, { maxArrayLength: null })
       .replace(/'(.*?)'/g, chalk.yellow("$&"))
       .replace(/'/g, "")
+      .replace(/"(.*?)"/g, chalk.yellow("$&")) // (*)
   );
 }
 
 module.exports = logsFullArray;
+
+// (*): This line is needed because some nodes have double quotes in their names, and without it are not colorized.
