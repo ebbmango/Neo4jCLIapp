@@ -1,3 +1,6 @@
 1. Make the load command accept only ONE argument;
 2. Make the load command accept files ANYWHERE;
-3
+
+3. Refactor and rename checkArguments.js -> validateArguments.js
+4. Refactor and rename checkConnection.js -> validateDatabaseConnection.js
+5. Refactor and rename validateCSV.js -> validateFilePath.js
