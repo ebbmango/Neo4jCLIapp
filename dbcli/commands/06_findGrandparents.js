@@ -2,8 +2,8 @@
 const neo4j = require("neo4j-driver");
 
 // Functions
-const checkArguments = require("../functions/checkArguments");
-const checkConnection = require("../functions/checkConnection");
+const validateArguments = require("../functions/validateArguments");
+const validateConnection = require("../functions/validateConnection");
 const logsFullArray = require("../functions/logsFullArray");
 
 // Query
@@ -16,8 +16,8 @@ const command = {
     const { default: chalk } = await import("chalk");
 
     const arguments = argv._.slice(1); // Stows the received arguments to a dedicated variable.
-    await checkArguments(arguments, 1); // Ensures there is exactly the expected amount of arguments.
-    await checkConnection(); // Ensures a connection to the database could be established.
+    await validateArguments(arguments, 1); // Ensures there is exactly the expected amount of arguments.
+    await validateConnection(); // Ensures a connection to the database could be established.
 
     const nodeName = arguments[0]; // Creates a handler for the relevant argument.
 

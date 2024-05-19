@@ -1,5 +1,6 @@
 // functions
-const { validateCSV } = require("../functions/validateCSV");
+const validateArguments = require("../functions/validateArguments");
+const { validateFilePath } = require("../functions/validateFilePath");
 const { loadDataFromCSV } = require("../functions/loadDataFromCSV");
 
 // command
@@ -10,24 +11,29 @@ const command = {
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 
-    let filePath;
+    const arguments = argv._.slice(1); // Stows the received arguments to a dedicated variable.
+    await validateArguments(arguments, 1); // Ensures there is exactly the expected amount of arguments.
+
+    let filePath = arguments[0];
+
     try {
-      filePath = validateCSV(argv); // Checks whether the user has provided a valid file path
-      console.log("file has been found in the directory");
+      filePath = validateFilePath(filePath); // Checks whether the user has provided a valid file path
     } catch (error) {
-      // If an error occurs...
-      console.error(error.message); // Informs the user
+      // If the file path is not valid...
+      console.error(error.message); // Informs the user.
       return false; // And halts program execution
     }
 
-    await loadDataFromCSV(filePath);
+    await loadDataFromCSV(filePath); // Loads the data from the file onto the database.
 
+    // Informs the user of the task's completion.
     console.log(
       chalk.green.bold(
         "✔ Database has been successfully filled with data from the CSV file."
       )
     );
-    
+
+    // Forcefully terminates the program (as it often lags to free the terminal for user input).
     process.exit(0);
   },
 };

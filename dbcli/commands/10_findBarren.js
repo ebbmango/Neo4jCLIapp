@@ -1,9 +1,9 @@
 // libraries
 const neo4j = require("neo4j-driver");
 
-// functions
-const checkArguments = require("../functions/checkArguments");
-const checkConnection = require("../functions/checkConnection");
+// Functions
+const validateArguments = require("../functions/validateArguments");
+const validateConnection = require("../functions/validateConnection");
 
 const command = {
   command: "10",
@@ -12,8 +12,8 @@ const command = {
   handler: async (argv) => {
     // Validation
     const arguments = argv._.slice(1);
-    await checkArguments(arguments, 0);
-    await checkConnection();
+    await validateArguments(arguments, 0);
+    await validateConnection();
 
     console.log("Task 10 - Work in progress");
   },
