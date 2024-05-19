@@ -48,23 +48,32 @@ WHERE NOT exists( ()-[:HAS_SUBCATEGORY]->(root) )
 RETURN DISTINCT root.name, rand() AS r 
 ORDER BY r
 LIMIT $amount
-`
+`;
 
 // 09a - This query finds out what is THE HIGHEST AMOUNT OF CHILDREN that a node has.
-const findMaxChildrenCountQuery = `
+const countMaxChildrenQuery = `
 MATCH (node:Category)-[:HAS_SUBCATEGORY]->(child:Category)
 WITH node, COUNT(child) AS childrenCount
 WITH MAX(childrenCount) AS maxChildrenCount
 RETURN maxChildrenCount;
-`
+`;
 
-// 09b - This query FINDS ALL NODES whose AMOUNT OF CHILDREN is given by the "amount" parameter.
-const findFertileQuery = `
+// 10b This query finds out what is THE LOWEST AMOUNT OF CHILDREN that a node has.
+const countMinChildrenQuery = `
+MATCH (node:Category)-[:HAS_SUBCATEGORY]->(child:Category)
+WITH node, COUNT(child) AS childrenCount
+WITH MIN(childrenCount) AS minChildrenCount
+RETURN minChildrenCount;
+`;
+
+// 09b & 10b - This query FINDS ALL NODES whose AMOUNT OF CHILDREN is given by the "amount" parameter.
+const findNodesWithChildrenAmountQuery = `
 MATCH (node:Category)-[:HAS_SUBCATEGORY]->(child:Category)
 WITH node, COUNT(child) AS childCount
 WHERE childCount = $amount
 RETURN node, childCount
-`
+ORDER BY node.name ASC 
+`;
 
 module.exports = {
   findChildrenQuery,
@@ -75,4 +84,7 @@ module.exports = {
   findGrandparentsQuery,
   countUniqueNodesQuery,
   findRandomRootQuery,
+  countMaxChildrenQuery,
+  countMinChildrenQuery,
+  findNodesWithChildrenAmountQuery
 };
