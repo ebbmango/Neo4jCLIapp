@@ -29,7 +29,7 @@ const command = {
       // Displays error message.
       console.log(`${errorHeader} ${errorMessage}\n${expectedLine}\n${receivedLine}`);
       // Terminates the program.
-      process.exit(0); // (*)
+      process.exit(0); // (**)
     }
 
     // Ensures a connection to the database could be established.
@@ -37,6 +37,19 @@ const command = {
 
     // Creates a handler for the relevant argument.
     const amount = argsLength === 0 ? 1 : arguments[0]; // If no argument is given, the amount of nodes returned will default to 1.
+
+    // Ensures the argument is a numeric value.
+    if (typeof amount !== 'number') {
+      // Builds error message.
+      const errorHeader = chalk.bgRed(" ERROR: ");
+      const errorMessage = chalk.red.bold(`Received argument of wrong type.`);
+      const expectedLine = `Expected: number`;
+      const receivedLine = `Received: ${typeof amount}`;
+      // Displays error message.
+      console.log(`${errorHeader} ${errorMessage}\n${expectedLine}\n${receivedLine}`);
+      // Terminates the program.
+      process.exit(0); // (**)
+    }
 
     // Starts the queries' runner.
     const driver = neo4j.driver("bolt://localhost:7687");
@@ -73,3 +86,5 @@ module.exports = command;
 
 // (*): This function – instead of the usual validateArguments() – is necessary because for this specific case,
 // there are TWO amounts of arguments that can be accepted (instead of only one, which is the case for all other commands).
+
+// (**): Using process.exit(0) instead of throwing an error for better code readability and more precise chalking of the error message. 
