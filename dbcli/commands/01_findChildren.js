@@ -7,7 +7,7 @@ const checkConnection = require("../functions/checkConnection");
 const printResult = require("../functions/printResult");
 
 // runner function for the relevant Cypher Query
-const findAllChildren = async (session, nodeName) => {
+const findChildren = async (session, nodeName) => {
   const query = // This query should find all children of the node whose name is given by the "nodeName" parameter
     " \
     MATCH (node:Category {name: $categoryName})-[:HAS_SUBCATEGORY]->(child:Category) \
@@ -16,6 +16,7 @@ const findAllChildren = async (session, nodeName) => {
     ";
 
   const result = await session.run(query, { categoryName: nodeName });
+
   const children = result.records.map(
     (record) => record.get("child").properties.name
   );
@@ -45,7 +46,7 @@ const command = {
     const session = driver.session();
 
     try {
-      const children = await findAllChildren(session, nodeName);
+      const children = await findChildren(session, nodeName);
       console.log(`All children of the node ${chalk.bold(`"${nodeName}"`)}:\n`);
       await printResult(children);
     } catch (error) {
@@ -58,5 +59,3 @@ const command = {
 };
 
 module.exports = command;
-
-// const query = "Match ([node]:Category{})-[*1]->(child:Category) return s";
