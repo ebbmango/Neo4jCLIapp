@@ -1,6 +1,6 @@
 // functions
 const { validateCSV } = require("../functions/validateCSV");
-const { uploadCSV } = require("../functions/uploadCSV");
+const { loadDataFromCSV } = require("../functions/loadDataFromCSV");
 
 // command
 const command = {
@@ -20,7 +20,7 @@ const command = {
       return false; // And halts program execution
     }
 
-    await uploadCSV(filePath);
+    await loadDataFromCSV(filePath);
 
     console.log(
       chalk.green.bold(

@@ -1,29 +1,13 @@
-// libraries
+// Libraries
 const neo4j = require("neo4j-driver");
 
-// functions
+// Functions
 const checkArguments = require("../functions/checkArguments");
 const checkConnection = require("../functions/checkConnection");
-const printResult = require("../functions/printResult");
+const logsFullArray = require("../functions/logsFullArray");
 
-
-// runner function for the relevant Cypher Query
-const findGrandchildren = async (session, nodeName) => {
-  const query = // This query should find all grandchildren of the node whose name is given by the "nodeName" parameter
-    " \
-    MATCH (node:Category {name: $categoryName})-[:HAS_SUBCATEGORY*2]->(grandchild:Category) \
-    RETURN grandchild \
-    ORDER BY grandchild.name ASC \
-    ";
-
-  const result = await session.run(query, { categoryName: nodeName });
-
-  const grandchildren = result.records.map(
-    (record) => record.get("grandchild").properties.name
-  );
-
-  return grandchildren;
-};
+// Query
+const { findGrandchildrenQuery: query } = require("../queries/cypherQueries");
 
 const command = {
   command: "3",
@@ -31,32 +15,40 @@ const command = {
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 
-    // Stows only the arguments (discards the command name) in a dedicated variable.
-    const arguments = argv._.slice(1);
+    const arguments = argv._.slice(1); // Stows the received arguments to a dedicated variable.
+    await checkArguments(arguments, 1); // Ensures there is exactly the expected amount of arguments.
+    await checkConnection(); // Ensures a connection to the database could be established.
 
-    // If the user provides more arguments than is expected by the command, warn them and stop the execution.
-    await checkArguments(arguments, 1);
+    const nodeName = arguments[0]; // Creates a handler for the relevant argument.
 
-    // Stows only the needed argument (the name of the node whose children we want to find) in a dedicated variable.
-    const nodeName = arguments[0];
-
-    // If a connection to the database cannot be established, inform the user and stop the execution.
-    await checkConnection();
-
+    // Starts the queries' runner.
     const driver = neo4j.driver("bolt://localhost:7687");
     const session = driver.session();
 
     try {
-      const grandchildren = await findGrandchildren(session, nodeName);
-      console.log(`All grandchildren of the node ${chalk.bold(`"${nodeName}"`)}:\n`);
-      await printResult(grandchildren);
+      // Runs the query.
+      const grandchildren = await runQuery(session, { categoryName: nodeName });
+      // Formats the result.
+      const chalkTitle = chalk.bold(`"${nodeName}"`);     
+      // Displays the result. 
+      console.log(`All grandchildren of the node ${chalkTitle}:\n`);
+      await logsFullArray(grandchildren);
     } catch (error) {
-      console.error(error);
+      console.error(error); // Handles errors
     } finally {
+      // Terminates the queries' runner.
       await session.close();
       await driver.close();
     }
   },
+};
+
+// Auxiliary function
+const runQuery = async (session, queryParameters) => {
+  const result = await session.run(query, queryParameters);
+  return result.records.map(
+    (record) => record.get("grandchild").properties.name
+  );
 };
 
 module.exports = command;

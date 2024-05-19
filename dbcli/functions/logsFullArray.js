@@ -1,8 +1,8 @@
-// nodeJS modules
+// Modules
 const util = require("util");
 
-// Fully logs the array passed as its argument and highlights each individual element from the separator commas
-async function printResult(array) {
+// MAIN: This function prints all elements from an array and highlights each individual element from the separator commas.
+async function logsFullArray(array) {
   const { default: chalk } = await import("chalk");
   console.log(
     util
@@ -12,4 +12,4 @@ async function printResult(array) {
   );
 }
 
-module.exports = printResult;
+module.exports = logsFullArray;
