@@ -2,7 +2,6 @@
 const neo4j = require("neo4j-driver");
 
 // Functions
-const validateArguments = require("../functions/validateArguments");
 const validateConnection = require("../functions/validateConnection");
 const logsFullArray = require("../functions/logsFullArray");
 
