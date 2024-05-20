@@ -82,6 +82,12 @@ SET node.name = $newName
 RETURN node
 `
 
+// 12 - 
+const findPathsQuery = `
+MATCH paths = (start:Category{name: $fromNode})-[:HAS_SUBCATEGORY*]->(end:Category{name: $toNode})
+RETURN paths
+`
+
 module.exports = {
   findChildrenQuery,
   countChildrenQuery,
@@ -94,5 +100,6 @@ module.exports = {
   countMaxChildrenQuery,
   countMinChildrenQuery,
   findNodesWithChildrenAmountQuery,
-  renameQuery
+  renameQuery,
+  findPathsQuery
 };

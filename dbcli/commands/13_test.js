@@ -2,7 +2,6 @@
 const neo4j = require("neo4j-driver");
 
 // Functions
-
 const logsFullArray = require("../functions/logsFullArray");
 
 // Query
