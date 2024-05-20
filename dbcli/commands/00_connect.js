@@ -21,7 +21,8 @@ const command = {
       "--user", `${uid}:${gid}`,
       "-v", `${importDir}:/var/lib/neo4j/import`,
       "-e NEO4J_dbms_memory_heap_initial__size=4G",
-      "-e NEO4J_dbms_memory_heap_max__size=4G",
+      "-e NEO4J_dbms_memory_heap_max__size=8G",
+      "-e NEO4J_dbms_memory_pagecache__size=10g",
       "neo4j:latest",
     ]);
 
