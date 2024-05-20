@@ -9,6 +9,7 @@ const command = {
   command: "6 <node_name>",
   aliases: ["find-grandparents"],
   describe: "Finds all grandparents of a given node.",
+  // FUNCTION
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 
@@ -25,6 +26,15 @@ const command = {
     // Displays the result.
     console.log(`All grandparents of the node ${chalkTitle}:\n`);
     await logsFullArray(grandparents);
+  },
+  // --help
+  builder: (yargs) => {
+    return yargs
+      .positional("<node_name>", {
+        describe: "Name of the node whose grandparents you would like to find.",
+        type: "string",
+      })
+      .strict(); // Enables strict mode: throws an error for too many arguments.
   },
 };
 

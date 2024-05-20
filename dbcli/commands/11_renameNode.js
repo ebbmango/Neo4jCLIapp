@@ -11,6 +11,7 @@ const command = {
   command: "11 <node_name> <new_name>", 
   aliases: ["rename"],
   describe: "Renames a given node.",
+  // FUNCTION
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 
@@ -39,6 +40,19 @@ const command = {
       console.log(`${xMark} Failed to rename the node ${chalkedNodeName} to ${chalkedNewName}`) // Handles errors.
       console.log(`${chalk.magenta("TIP:")} Make sure the node called ${chalkedNodeName} truly exists.`)
     }
+  },
+  // --help
+  builder: (yargs) => {
+    return yargs
+      .positional("<node_name>", {
+        describe: "Name of the node whose name you would like to change.",
+        type: "string",
+      })
+      .positional("<new_name>", {
+        describe: "Name to which you would like to change the node's name.",
+        type: "string",
+      })
+      .strict(); // Enables strict mode: throws an error for too many arguments.
   },
 };
 

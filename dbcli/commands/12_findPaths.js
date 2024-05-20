@@ -8,6 +8,7 @@ const command = {
   aliases: ["find-paths"],
   describe:
     "Finds all paths between two given nodes, with directed edges from the first to the second node.",
+  // FUNCTION
   handler: async (argv) => {
 
     const node01 = argv["node_1"];

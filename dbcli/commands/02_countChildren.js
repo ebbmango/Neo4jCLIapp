@@ -1,5 +1,5 @@
 // Functions
-const runQuery = require("../functions/runQuery")
+const runQuery = require("../functions/runQuery");
 
 // Query
 const { countChildrenQuery: query } = require("../queries/cypherQueries");
@@ -8,6 +8,7 @@ const command = {
   command: "2 <node_name>",
   aliases: ["count-children"],
   describe: "Counts all children of a given node.",
+  // FUNCTION
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 
@@ -24,6 +25,15 @@ const command = {
     console.log(
       `The amount of children of the node ${chalkTitle} is: ${chalkResult}`
     );
+  },
+  // --help
+  builder: (yargs) => {
+    return yargs
+      .positional("<node_name>", {
+        describe: "Name of the node whose children you would like to count.",
+        type: "string",
+      })
+      .strict(); // Enables strict mode: throws an error for too many arguments.
   },
 };
 

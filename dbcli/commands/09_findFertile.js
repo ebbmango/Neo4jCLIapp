@@ -13,6 +13,7 @@ const command = {
   aliases: ["find-fertile"],
   describe:
     "Finds the nodes with the most children (there could be more than one).",
+  // FUNCTION
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 

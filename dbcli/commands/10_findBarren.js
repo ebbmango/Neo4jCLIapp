@@ -13,6 +13,7 @@ const command = {
   aliases: ["find-infertile"],
   describe:
     "Finds the nodes with the least children (there could be more than one). Childless nodes are not considered.",
+  // FUNCTION
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 

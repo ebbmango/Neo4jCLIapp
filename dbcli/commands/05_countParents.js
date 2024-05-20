@@ -8,6 +8,7 @@ const command = {
   command: "5 <node_name>",
   aliases: ["count-parents"],
   describe: "Counts all parents of a given node.",
+  // FUNCTION
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 
@@ -24,6 +25,15 @@ const command = {
     console.log(
       `The amount of parents of the node ${chalkTitle} is: ${chalkResult}`
     );
+  },
+  // --help
+  builder: (yargs) => {
+    return yargs
+      .positional("<node_name>", {
+        describe: "Name of the node whose parents you would like to count.",
+        type: "string",
+      })
+      .strict(); // Enables strict mode: throws an error for too many arguments.
   },
 };
 

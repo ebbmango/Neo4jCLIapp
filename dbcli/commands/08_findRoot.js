@@ -13,6 +13,7 @@ const command = {
   aliases: ["find-root"],
   describe:
     "Finds a root node (i.e., one which is not a subcategory of any other node).",
+  // FUNCTION
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 
@@ -25,7 +26,9 @@ const command = {
     });
 
     // Reads the query
-    const randomNodes = queryResult.records.map((record) => record.get("root.name"));
+    const randomNodes = queryResult.records.map((record) =>
+      record.get("root.name")
+    );
 
     // Formats the result.
     const chalkAmount = chalk.bold(`${amount}`);

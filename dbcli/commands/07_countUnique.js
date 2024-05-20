@@ -8,6 +8,7 @@ const command = {
   command: "7",
   aliases: ["count-unique"],
   describe: "Counts how many uniquely named nodes there are.",
+  // FUNCTION
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 
