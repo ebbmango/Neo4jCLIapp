@@ -1,50 +1,45 @@
 #!/usr/bin/env node
-const yargs = require("yargs");
+(async () => {
+  const { default: chalk } = await import("chalk");
+  const yargs = require("yargs");
 
-// preliminary
-const load = require("../commands/00_load.js");
-const connect = require("../commands/00_connect.js");
+  // preliminary
+  const load = require("../commands/00_load.js");
+  const connect = require("../commands/00_connect.js");
 
-// tasks
-const findAllChildren = require("../commands/01_findChildren.js");
-const countChildren = require("../commands/02_countChildren");
-const findGrandchildren = require("../commands/03_findGrandchildren");
-const findParents = require("../commands/04_findParents");
-const countParents = require("../commands/05_countParents");
-const findGrandparents = require("../commands/06_findGrandparents");
-const countUnique = require("../commands/07_countUnique");
-const findRoot = require("../commands/08_findRoot");
-const findFertile = require("../commands/09_findFertile");
-const findBarren = require("../commands/10_findBarren");
-const renameNode = require("../commands/11_renameNode");
-const findPaths = require("../commands/12_findPaths");
-const test = require("../commands/13_test");
+  // tasks
+  const commands = require("../commands/indexCommands.js");
+  const test = require("../commands/13_test.js");
 
-// yargs
-const errorHandler = require("../yargs/errorHandler");
+  // yargs
+  const checkConnection = require("../yargs/checkConnection");
+  const throwError = require("../yargs/throwError");
+  const displayError = require("../yargs/displayError");
 
-try {
-  yargs
-    // setup
-    .command(load)
-    .command(connect)
-    // tasks
-    .command(findAllChildren)
-    .command(countChildren)
-    .command(findGrandchildren)
-    .command(findParents)
-    .command(countParents)
-    .command(findGrandparents)
-    .command(countUnique)
-    .command(findRoot)
-    .command(findBarren)
-    .command(findFertile)
-    .command(renameNode)
-    .command(findPaths)
-    .command(test)
-    .help() // enables "--help" command
-    .version(false) // disables "--version" command
-    .fail(errorHandler).argv; // throws internal errors to the catch block
-} catch (error) {
-  console.log(error.message);
-}
+  try {
+    await yargs
+      // setup
+      .command(load)
+      .command(connect)
+      // tasks
+      .command(commands.findAllChildren)
+      .command(commands.countChildren)
+      .command(commands.findGrandchildren)
+      .command(commands.findParents)
+      .command(commands.countParents)
+      .command(commands.findGrandparents)
+      .command(commands.countUnique)
+      .command(commands.findRoot)
+      .command(commands.findBarren)
+      .command(commands.findFertile)
+      .command(commands.renameNode)
+      .command(commands.findPaths)
+      .command(test)
+      .help() // enables "--help" command
+      .version(false) // disables "--version" command
+      .check(checkConnection)
+      .fail(throwError).argv; // throws internal errors to the catch block
+  } catch (error) {
+    displayError(error); // Formats and displays the error message
+  }
+})();

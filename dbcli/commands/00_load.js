@@ -1,5 +1,4 @@
 // functions
-const validateArguments = require("../functions/validateArguments");
 const { validateFilePath } = require("../functions/validateFilePath");
 const { loadDataFromCSV } = require("../functions/loadDataFromCSV");
 
@@ -12,7 +11,6 @@ const command = {
     const { default: chalk } = await import("chalk");
 
     const arguments = argv._.slice(1); // Stows the received arguments to a dedicated variable.
-    await validateArguments(arguments, 1); // Ensures there is exactly the expected amount of arguments.
 
     let filePath = arguments[0];
 
