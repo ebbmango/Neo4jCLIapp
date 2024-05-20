@@ -6,6 +6,7 @@ const {
   constraintsQuery,
   loadCategoriesQuery,
   loadRelationshipsQuery,
+  indexQuery,
 } = require("../queries/uploadQueries");
 
 // MAIN: This function loads all nodes and relationships from the CSV file into the database.
@@ -17,15 +18,16 @@ async function loadDataFromCSV(filePath) {
   try {
     // Sets up constraints.
     await session.run(constraintsQuery);
+
     // Loads all categories from the CSV file into the database.
-    await runQueryWithSpinner({
+    await runQueryWithSpinner(session, {
       query: loadCategoriesQuery,
       queryParameters: { filePath: `file:///${filePath}` },
       loadingText: "Loading Nodes",
       successText: "Nodes loaded successfully.",
     });
     // Creates relationships between categories and subcategories according to the CSV file.
-    await runQueryWithSpinner({
+    await runQueryWithSpinner(session, {
       query: loadRelationshipsQuery,
       queryParameters: { filePath: `file:///${filePath}` },
       loadingText: "Loading Relationships",
@@ -65,9 +67,12 @@ function updateSpinner(spinner) {
 }
 
 // This functions runs a query and informs the user of its current execution status.
-async function runQueryWithSpinner({ query, queryParameters, loadingText, successText }) {
+async function runQueryWithSpinner(
+  session,
+  { query, queryParameters, loadingText, successText }
+) {
   const { default: ora } = await import("ora"); // Imports necessary dependencies
-  
+
   const spinner = ora(loadingText).start(); // Initializes the spinner
   updateSpinner(spinner); // Updates the spinner
   await session.run(query, queryParameters); // Runs the query

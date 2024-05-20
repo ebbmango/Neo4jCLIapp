@@ -18,17 +18,24 @@ const command = {
       "--publish=7474:7474",
       "--publish=7687:7687",
       "--env=NEO4J_AUTH=none",
+      "--env=NEO4J_apoc_export_file_enabled=true",
+      "--env=NEO4J_apoc_import_file_enabled=true",
+      "--env=NEO4J_apoc_import_file_use__neo4j__config=true",
+      '--env=NEO4J_PLUGINS=["apoc"]',
       "--user", `${uid}:${gid}`,
       "-v", `${importDir}:/var/lib/neo4j/import`,
-      "-e NEO4J_dbms_memory_heap_initial__size=4G",
-      "-e NEO4J_dbms_memory_heap_max__size=8G",
-      "-e NEO4J_dbms_memory_pagecache__size=10g",
-      "neo4j:latest",
+      "neo4j:5.19.0", // Specify the correct version as per your requirements
     ]);
 
     // Listens for stdout data (and formats it adequately)
     dockerProcess.stdout.on("data", (data) => {
-      console.log(data.toString("utf-8").split("INFO")[1].trim());
+      const output = data.toString("utf-8");
+      const infoParts = output.split("INFO");
+      if (infoParts.length > 1) {
+        console.log(infoParts[1].trim());
+      } else {
+        console.log(output.trim());
+      }
     });
 
     // Listens for stderr data
@@ -40,7 +47,7 @@ const command = {
     dockerProcess.on("error", (error) => {
       console.error(`Error spawning Docker process: ${error}`);
     });
-
+    
     // Listens for process exit
     dockerProcess.on("close", (code) => {
       console.log(`Docker process exited with code ${code}`);
