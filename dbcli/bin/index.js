@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 const yargs = require("yargs");
 
 // preliminary
@@ -19,22 +18,33 @@ const findFertile = require("../commands/09_findFertile");
 const findBarren = require("../commands/10_findBarren");
 const renameNode = require("../commands/11_renameNode");
 const findPaths = require("../commands/12_findPaths");
+const test = require("../commands/13_test");
 
-yargs
-  // setup
-  .command(load)
-  .command(connect)
-  // tasks
-  .command(findAllChildren)
-  .command(countChildren)
-  .command(findGrandchildren)
-  .command(findParents)
-  .command(countParents)
-  .command(findGrandparents)
-  .command(countUnique)
-  .command(findRoot)
-  .command(findBarren)
-  .command(findFertile)
-  .command(renameNode)
-  .command(findPaths)
-  .help().argv;
+// yargs
+const errorHandler = require("../yargs/errorHandler");
+
+try {
+  yargs
+    // setup
+    .command(load)
+    .command(connect)
+    // tasks
+    .command(findAllChildren)
+    .command(countChildren)
+    .command(findGrandchildren)
+    .command(findParents)
+    .command(countParents)
+    .command(findGrandparents)
+    .command(countUnique)
+    .command(findRoot)
+    .command(findBarren)
+    .command(findFertile)
+    .command(renameNode)
+    .command(findPaths)
+    .command(test)
+    .help() // enables "--help" command
+    .version(false) // disables "--version" command
+    .fail(errorHandler).argv; // throws internal errors to the catch block
+} catch (error) {
+  console.log(error.message);
+}
