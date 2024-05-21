@@ -31,8 +31,8 @@ const command = {
       )
     );
 
-    // Forcefully terminates the program (as it often lags to free the terminal for user input).
-    process.exit(0);
+        // Manually exits the process (as it sometimes hangs, needlessly occupying the terminal).
+        process.exit();
   },
 };
 

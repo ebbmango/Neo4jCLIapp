@@ -23,6 +23,9 @@ const command = {
       header: `The amount of <bold>uniquely named nodes</bold> is:`,
       data: `<ylw>${uniqueCount}</ylw>`,
     });
+
+    // Manually exits the process (as it sometimes hangs, needlessly occupying the terminal).
+    process.exit();
   },
 };
 

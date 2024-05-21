@@ -31,6 +31,8 @@ const command = {
       header: `Nodes with <bold>the highest amount of children</bold>:`,
       data: infertileNodes,
     });
+
+    process.exit();
   },
 };
 

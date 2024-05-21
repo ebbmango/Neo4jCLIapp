@@ -27,6 +27,9 @@ const command = {
       header: `The amount of parents of the node "<bold>${nodeName}</bold>" is:`,
       data: `<ylw>${parentsCount}</ylw>`,
     });
+
+    // Manually exits the process (as it sometimes hangs, needlessly occupying the terminal).
+    process.exit();
   },
   // --help
   builder: (yargs) => {

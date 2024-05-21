@@ -16,6 +16,7 @@ async function displayResult({ executionTime, header, data }) {
 
   // Displays execution time
   const timeInSeconds = (executionTime / 1000).toFixed(4);
+  
   console.log(
     await chalkText(`\nExecution time: <ylw>${timeInSeconds}</ylw> seconds`)
   );

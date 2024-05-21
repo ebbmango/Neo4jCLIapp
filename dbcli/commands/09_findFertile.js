@@ -31,6 +31,9 @@ const command = {
       header: `Nodes with <bold>the highest amount of children</bold>:`,
       data: fertileNodes,
     });
+
+    // Manually exits the process (as it sometimes hangs, needlessly occupying the terminal).
+    process.exit();
   },
 };
 

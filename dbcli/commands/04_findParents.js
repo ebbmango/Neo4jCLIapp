@@ -27,6 +27,9 @@ const command = {
       header: `All parents of the node "<bold>${nodeName}</bold>":`,
       data: parents,
     });
+
+    // Manually exits the process (as it sometimes hangs, needlessly occupying the terminal).
+    process.exit();
   },
   // --help
   builder: (yargs) => {

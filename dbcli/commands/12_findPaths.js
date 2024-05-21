@@ -87,6 +87,9 @@ const command = {
       header: `\n<wht>All paths</wht> between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw>:\n`,
       data: displayString,
     });
+
+    // Manually exits the process (as it sometimes hangs, needlessly occupying the terminal).
+    process.exit();
   },
   // --help
   builder: (yargs) => {

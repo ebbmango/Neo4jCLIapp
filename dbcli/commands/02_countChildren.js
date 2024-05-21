@@ -27,6 +27,9 @@ const command = {
       header: `The amount of children of the node "<bold>${nodeName}</bold>" is:`,
       data: `<ylw>${childrenCount}</ylw>`,
     });
+
+    // Manually exits the process (as it sometimes hangs, needlessly occupying the terminal).
+    process.exit();
   },
   // --help
   builder: (yargs) => {

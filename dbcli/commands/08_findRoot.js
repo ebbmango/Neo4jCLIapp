@@ -35,6 +35,9 @@ const command = {
       header: `List of <ylw>${amount}</ylw> randomly selected <bold>root node(s)</bold>:`,
       data: randomNodes,
     });
+
+    // Manually exits the process (as it sometimes hangs, needlessly occupying the terminal).
+    process.exit();
   },
   // --help
   builder: (yargs) => {
