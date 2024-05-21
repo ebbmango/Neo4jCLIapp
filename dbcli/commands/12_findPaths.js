@@ -20,7 +20,7 @@ const command = {
 
     const node01 = argv["node_1"];
     const node02 = argv["node_2"];
-    const maxLevel = argv["depth"];
+    const depth = argv["depth"];
 
     // Running the query
     const { queryResult, executionTime } = await runQueryWithSpinner({
@@ -28,10 +28,10 @@ const command = {
       queryParameters: {
         nodeFrom: node01,
         nodeTo: node02,
-        maxDistance: neo4j.int(maxLevel),
+        maxDistance: neo4j.int(depth),
       },
       loadingText: await chalkText(
-        `Finding all paths between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw> (max depth: <ylw>${maxLevel})</ylw>`
+        `Finding all paths between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw> (max depth: <ylw>${depth}</ylw>)`
       ),
       successText: "Query completed.",
     });
@@ -82,9 +82,9 @@ const command = {
     const displayString = displayStringElements.join("\n\n");
 
     // Displaying the result:
-    displayResult({
+    await displayResult({
       executionTime,
-      header: `\n<wht>All paths</wht> between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw>:\n`,
+      header: `\n<wht>All paths</wht> between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw> (up to <ylw>${depth}</ylw> levels deep):\n`,
       data: displayString,
     });
 

@@ -26,7 +26,7 @@ const command = {
     // Displays the result.
     await displayResult({
       executionTime,
-      header: `All children of the node "<bold>${nodeName}</bold>":`,
+      header: `All children of the node "<bold>${nodeName}</bold>":\n`,
       data: children,
     });
 

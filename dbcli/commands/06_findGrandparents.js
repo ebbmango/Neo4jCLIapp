@@ -26,7 +26,7 @@ const command = {
     // Displays the result
     await displayResult({
       executionTime,
-      header: `All grandparents of the node "<bold>${nodeName}</bold>":`,
+      header: `All grandparents of the node "<bold>${nodeName}</bold>":\n`,
       data: grandparents,
     });
 

@@ -24,7 +24,7 @@ const command = {
     // Displays the result
     await displayResult({
       executionTime,
-      header: `All parents of the node "<bold>${nodeName}</bold>":`,
+      header: `All parents of the node "<bold>${nodeName}</bold>":\n`,
       data: parents,
     });
 

@@ -28,7 +28,7 @@ const command = {
     // Displays the result
     await displayResult({
       executionTime,
-      header: `Nodes with <bold>the highest amount of children</bold>:`,
+      header: `Nodes with <bold>the highest amount of children</bold>:\n`,
       data: infertileNodes,
     });
 

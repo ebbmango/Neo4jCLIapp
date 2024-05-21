@@ -17,7 +17,7 @@ const command = {
   handler: async (argv) => {
     // Creates a handler for the relevant argument.
     const amount = argv.amount;
-    
+
     // Runs the query.
     const { queryResult, executionTime } = await runQuery(query, {
       amount: neo4j.int(amount),
@@ -31,7 +31,7 @@ const command = {
     // Displays the result
     await displayResult({
       executionTime,
-      header: `List of <ylw>${amount}</ylw> randomly selected <bold>root node(s)</bold>:`,
+      header: `List of <ylw>${amount}</ylw> randomly selected <bold>root node(s)</bold>:\n`,
       data: randomNodes,
     });
 

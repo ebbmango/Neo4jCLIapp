@@ -31,7 +31,7 @@ const command = {
       // If the node has been renamed...
       if (renamedNode === newName) {
         // Display the query's result to the user.
-        displayResult({
+        await displayResult({
           executionTime,
           header: `<grn>✔</grn> Successfuly renamed the node <ylw>${nodeName}</ylw> to <ylw>${newName}</ylw>`,
         });
