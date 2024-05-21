@@ -18,11 +18,11 @@ async function runQueryWithSpinner({
   const spinner = ora(loadingText).start(); // Initializes the spinner
   updateSpinner(spinner); // Updates the spinner
 
-  var startTime = performance.now();
+  const startTime = performance.now();
   
   const result = await session.run(query, queryParameters); // Runs the query
   
-  var endTime = performance.now();
+  const endTime = performance.now();
 
   spinner.clear(); // Clears the spinner
   spinner.succeed(successText); // Displays the success text
