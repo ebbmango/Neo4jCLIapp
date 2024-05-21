@@ -1,14 +1,9 @@
-// libraries
-const neo4j = require("neo4j-driver");
-
 // Functions
-const runQuery = require("../functions/runQuery");
 const runQueryWithSpinner = require("../functions/runQueryWithSpinner");
-const logsFullArray = require("../functions/logsFullArray");
+const displayResult = require("../functions/displayResult");
 
 // Queries
 const { findInfertileNodesQuery: query } = require("../queries/cypherQueries");
-const displayResult = require("../functions/displayResult");
 
 const command = {
   command: "10",
@@ -17,14 +12,12 @@ const command = {
     "Finds the nodes with the least children (there could be more than one).",
   // FUNCTION
   handler: async (argv) => {
-    const { default: chalk } = await import("chalk");
-
     // Runs the query.
     const { queryResult, executionTime } = await runQueryWithSpinner({
       query,
       queryParameters: {},
       loadingText: "Finding all nodes with the least children",
-      successText: "Query completed."
+      successText: "Query completed.",
     });
 
     // Reads the query.

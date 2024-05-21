@@ -1,6 +1,6 @@
 // Functions
-const displayResult = require("../functions/displayResult");
 const runQuery = require("../functions/runQuery");
+const displayResult = require("../functions/displayResult");
 
 // Query
 const { countParentsQuery: query } = require("../queries/cypherQueries");
@@ -11,8 +11,6 @@ const command = {
   describe: "Counts all parents of a given node.",
   // FUNCTION
   handler: async (argv) => {
-    const { default: chalk } = await import("chalk");
-
     const nodeName = argv["node_name"]; // Creates a handler for the relevant argument.
 
     // Runs the query.
@@ -22,7 +20,7 @@ const command = {
 
     // Reads the query.
     const parentsCount = queryResult.records[0].get("parentsCount");
-    
+
     // Displays the result.
     await displayResult({
       executionTime,

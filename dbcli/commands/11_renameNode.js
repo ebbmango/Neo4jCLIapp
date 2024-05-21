@@ -1,13 +1,10 @@
-// libraries
-const neo4j = require("neo4j-driver");
-
 // Functions
 const runQuery = require("../functions/runQuery");
+const chalkText = require("../functions/chalkText");
+const displayResult = require("../functions/displayResult");
 
 // Query
 const { renameQuery: query } = require("../queries/cypherQueries");
-const chalkText = require("../functions/chalkText");
-const displayResult = require("../functions/displayResult");
 
 const command = {
   command: "11 <node_name> <new_name>",

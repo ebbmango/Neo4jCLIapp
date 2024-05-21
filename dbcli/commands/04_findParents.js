@@ -1,10 +1,9 @@
 // Functions
 const runQuery = require("../functions/runQuery");
-const logsFullArray = require("../functions/logsFullArray");
+const displayResult = require("../functions/displayResult");
 
 // Query
 const { findParentsQuery: query } = require("../queries/cypherQueries");
-const displayResult = require("../functions/displayResult");
 
 const command = {
   command: "4 <node_name>",
@@ -12,8 +11,6 @@ const command = {
   describe: "Finds all parents of a given node.",
   // FUNCTION
   handler: async (argv) => {
-    const { default: chalk } = await import("chalk");
-
     const nodeName = argv["node_name"]; // Creates a handler for the relevant argument.
 
     // Runs the query.

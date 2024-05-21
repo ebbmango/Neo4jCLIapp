@@ -1,6 +1,6 @@
 // Functions
-const displayResult = require("../functions/displayResult");
 const runQuery = require("../functions/runQuery");
+const displayResult = require("../functions/displayResult");
 
 // Query
 const { countUniqueNodesQuery: query } = require("../queries/cypherQueries");
@@ -11,8 +11,6 @@ const command = {
   describe: "Counts how many uniquely named nodes there are.",
   // FUNCTION
   handler: async (argv) => {
-    const { default: chalk } = await import("chalk");
-
     // Runs the query.
     const { queryResult, executionTime } = await runQuery(query);
 

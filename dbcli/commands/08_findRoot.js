@@ -3,11 +3,10 @@ const neo4j = require("neo4j-driver");
 
 // Functions
 const runQuery = require("../functions/runQuery");
-const logsFullArray = require("../functions/logsFullArray");
+const displayResult = require("../functions/displayResult");
 
 // Queries
 const { findRandomRootQuery: query } = require("../queries/cypherQueries");
-const displayResult = require("../functions/displayResult");
 
 const command = {
   command: "8",
@@ -16,8 +15,6 @@ const command = {
     "Finds a root node (i.e., one which is not a subcategory of any other node).",
   // FUNCTION
   handler: async (argv) => {
-    const { default: chalk } = await import("chalk");
-
     // Creates a handler for the relevant argument.
     const amount = argv.amount;
     console.log(amount);

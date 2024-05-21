@@ -2,11 +2,12 @@
 const neo4j = require("neo4j-driver");
 
 // Functions
-const runQuery = require("../functions/runQuery");
-const { findPathsQuery: query } = require("../queries/cypherQueries");
 const runQueryWithSpinner = require("../functions/runQueryWithSpinner");
 const chalkText = require("../functions/chalkText");
 const displayResult = require("../functions/displayResult");
+
+// Query
+const { findPathsQuery: query } = require("../queries/cypherQueries");
 
 const command = {
   command: "12 <node_1> <node_2>",
