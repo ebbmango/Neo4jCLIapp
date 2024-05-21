@@ -52,6 +52,7 @@ const command = {
       paths.push(path);
     });
 
+    // Logging each path to the console.
     paths.forEach((path) => {
       console.log(`${path.join(" → ")}\n`);
     });
