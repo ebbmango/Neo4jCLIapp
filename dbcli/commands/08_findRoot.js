@@ -17,8 +17,7 @@ const command = {
   handler: async (argv) => {
     // Creates a handler for the relevant argument.
     const amount = argv.amount;
-    console.log(amount);
-
+    
     // Runs the query.
     const { queryResult, executionTime } = await runQuery(query, {
       amount: neo4j.int(amount),
