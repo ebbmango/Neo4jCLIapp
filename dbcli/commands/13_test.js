@@ -3,6 +3,7 @@ const neo4j = require("neo4j-driver");
 
 // Functions
 const logsFullArray = require("../functions/logsFullArray");
+const chalkText = require("../functions/chalkText");
 
 // Query
 const { findChildrenQuery: query } = require("../queries/cypherQueries");
@@ -19,7 +20,8 @@ const command = {
       .strict(); // Enable strict mode to throw an error for too many arguments
   },
   handler: async (argv) => {
-    console.log(argv);
+
+    console.log(await chalkText(text));
   },
 };
 

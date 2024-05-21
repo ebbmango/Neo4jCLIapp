@@ -41,24 +41,3 @@ async function loadDataFromCSV(filePath) {
 }
 
 module.exports = { loadDataFromCSV };
-
-// Auxiliary functions:
-
-// This function updates the spinner's text and color.
-function updateSpinner(spinner) {
-  const colors = ["green", "yellow", "blue", "magenta", "cyan"];
-  const dots = ["", ".", "..", "..."];
-
-  let colorIndex = 0;
-  let dotIndex = 0;
-
-  setInterval(() => {
-    // Updates color
-    spinner.color = colors[colorIndex];
-    colorIndex = (colorIndex + 1) % colors.length;
-
-    // Updates dots
-    spinner.text = spinner.text.replace(/[.]/g, "") + dots[dotIndex];
-    dotIndex = (dotIndex + 1) % dots.length;
-  }, 1000); // Every second
-}

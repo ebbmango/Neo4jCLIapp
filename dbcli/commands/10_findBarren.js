@@ -3,38 +3,41 @@ const neo4j = require("neo4j-driver");
 
 // Functions
 const runQuery = require("../functions/runQuery");
+const runQueryWithSpinner = require("../functions/runQueryWithSpinner");
 const logsFullArray = require("../functions/logsFullArray");
 
 // Queries
-const { countMinChildrenQuery, findNodesWithChildrenAmountQuery } = require("../queries/cypherQueries");
+const { findInfertileNodesQuery: query } = require("../queries/cypherQueries");
+const displayResult = require("../functions/displayResult");
 
 const command = {
   command: "10",
   aliases: ["find-infertile"],
   describe:
-    "Finds the nodes with the least children (there could be more than one). Childless nodes are not considered.",
+    "Finds the nodes with the least children (there could be more than one).",
   // FUNCTION
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 
-    // Runs the queries.
-    const countQueryResult = await runQuery(countMinChildrenQuery, {});
-    const minChildrenCount = countQueryResult.records[0].get("minChildrenCount")
-    
-    const findQueryResult = await runQuery(findNodesWithChildrenAmountQuery, {amount: neo4j.int(minChildrenCount)})
-    const infertileNodes = findQueryResult.records.map((record) => record.get("node").properties.name);
+    // Runs the query.
+    const { queryResult, executionTime } = await runQueryWithSpinner({
+      query,
+      queryParameters: {},
+      loadingText: "Finding all nodes with the least children",
+      successText: "Query completed."
+    });
 
-    // Formats the result.
-    const chalkHighlight = chalk.bold("with the least children");
-    const formattedAmount = new Intl.NumberFormat("en", {minimumIntegerDigits: 3}).format(minChildrenCount);
-    const chalkAmount = chalk.yellow(formattedAmount)
-    const chalkTitle = `${chalkHighlight} (${chalkAmount})`
-    const singleResult = infertileNodes.length === 1;
-    const headerLine = `The ${singleResult ? "node" : "nodes"} ${chalkTitle} ${singleResult? "is" : "are"}:\n`
+    // Reads the query.
+    const infertileNodes = queryResult.records.map(
+      (record) => record.get("node").properties.name
+    );
 
-    // Displays the result.
-    console.log(headerLine);
-    await logsFullArray(infertileNodes);
+    // Displays the result
+    await displayResult({
+      executionTime,
+      header: `Nodes with <bold>the highest amount of children</bold>:`,
+      data: infertileNodes,
+    });
   },
 };
 

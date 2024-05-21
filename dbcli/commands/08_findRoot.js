@@ -7,9 +7,10 @@ const logsFullArray = require("../functions/logsFullArray");
 
 // Queries
 const { findRandomRootQuery: query } = require("../queries/cypherQueries");
+const displayResult = require("../functions/displayResult");
 
 const command = {
-  command: "8 [amount]",
+  command: "8",
   aliases: ["find-root"],
   describe:
     "Finds a root node (i.e., one which is not a subcategory of any other node).",
@@ -18,10 +19,11 @@ const command = {
     const { default: chalk } = await import("chalk");
 
     // Creates a handler for the relevant argument.
-    const amount = argv.amount ? argv.amount : 1;
+    const amount = argv.amount;
+    console.log(amount);
 
     // Runs the query.
-    const queryResult = await runQuery(query, {
+    const { queryResult, executionTime } = await runQuery(query, {
       amount: neo4j.int(amount),
     });
 
@@ -30,15 +32,23 @@ const command = {
       record.get("root.name")
     );
 
-    // Formats the result.
-    const chalkAmount = chalk.bold(`${amount}`);
-    const chalkTitle = chalk.bold(
-      `root node${randomNodes.length === 1 ? "" : "s"}`
-    );
-
-    // Displays the result.
-    console.log(`List of ${chalkAmount} randomly selected ${chalkTitle}:\n`);
-    await logsFullArray(randomNodes);
+    // Displays the result
+    await displayResult({
+      executionTime,
+      header: `List of <ylw>${amount}</ylw> randomly selected <bold>root node(s)</bold>:`,
+      data: randomNodes,
+    });
+  },
+  // --help
+  builder: (yargs) => {
+    return yargs
+      .option("amount", {
+        describe:
+          "Specifies the amount of root nodes you would like to return.",
+        type: "integer",
+        default: 1,
+      })
+      .strict(); // Enables strict mode: throws an error for too many arguments.
   },
 };
 

@@ -4,6 +4,7 @@ const logsFullArray = require("../functions/logsFullArray");
 
 // Query
 const { findGrandparentsQuery: query } = require("../queries/cypherQueries");
+const displayResult = require("../functions/displayResult");
 
 const command = {
   command: "6 <node_name>",
@@ -16,16 +17,21 @@ const command = {
     const nodeName = argv["node_name"]; // Creates a handler for the relevant argument.
 
     // Runs the query.
-    const queryResult = await runQuery(query, { categoryName: nodeName });
+    const { queryResult, executionTime } = await runQuery(query, {
+      categoryName: nodeName,
+    });
+
     // Reads the query
     const grandparents = queryResult.records.map(
       (record) => record.get("grandparent").properties.name
     );
-    // Formats the result.
-    const chalkTitle = chalk.bold(`"${nodeName}"`);
-    // Displays the result.
-    console.log(`All grandparents of the node ${chalkTitle}:\n`);
-    await logsFullArray(grandparents);
+
+    // Displays the result
+    await displayResult({
+      executionTime,
+      header: `All grandparents of the node "<bold>${nodeName}</bold>":`,
+      data: grandparents,
+    });
   },
   // --help
   builder: (yargs) => {

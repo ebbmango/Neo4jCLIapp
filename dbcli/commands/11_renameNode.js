@@ -6,9 +6,11 @@ const runQuery = require("../functions/runQuery");
 
 // Query
 const { renameQuery: query } = require("../queries/cypherQueries");
+const chalkText = require("../functions/chalkText");
+const displayResult = require("../functions/displayResult");
 
 const command = {
-  command: "11 <node_name> <new_name>", 
+  command: "11 <node_name> <new_name>",
   aliases: ["rename"],
   describe: "Renames a given node.",
   // FUNCTION
@@ -18,27 +20,40 @@ const command = {
     // Creates handlers for the relevant arguments.
     const nodeName = argv["node_name"];
     const newName = argv["new_name"];
-    
-    const chalkedNodeName = chalk.yellow(`"${nodeName}"`);
-    const chalkedNewName = chalk.yellow(`"${newName}"`);
 
     try {
       // Runs the query.
-      const queryResult = await runQuery(query, { categoryName: nodeName, newName });
-      const renamedNode = queryResult.records[0].get("node").properties.name;
-      // If it works, log the success to the user.
-      const checkmark = chalk.green("✔")
+      const { queryResult, executionTime } = await runQuery(query, {
+        categoryName: nodeName,
+        newName,
+      });
 
+      // Reads the result
+      const renamedNode = queryResult.records[0].get("node").properties.name;
+
+      // If the node has been renamed...
       if (renamedNode === newName) {
-        console.log(`${checkmark} Successfuly renamed the node ${chalkedNodeName} to ${chalkedNewName}`)
+        // Display the query's result to the user.
+        displayResult({
+          executionTime,
+          header: `<grn>✔</grn> Successfuly renamed the node <ylw>${nodeName}</ylw> to <ylw>${newName}</ylw>`,
+        });
       } else {
-        throw new Error ("Failed to rename the node.")
+        throw new Error("Failed to rename the node.");
       }
-    } catch (error) { 
-      // If it doesn't, log the failure to the user.
+    } catch (error) {
+      // If it hasn't, log the failure to the user.
       const xMark = chalk.red("✖");
-      console.log(`${xMark} Failed to rename the node ${chalkedNodeName} to ${chalkedNewName}`) // Handles errors.
-      console.log(`${chalk.magenta("TIP:")} Make sure the node called ${chalkedNodeName} truly exists.`)
+      console.log(
+        await chalkText(
+          `<red>✖</red> Failed to rename the node <ylw>${nodeName}</ylw> to <ylw>${newName}</ylw>`
+        )
+      ); // Handles errors.
+      console.log(
+        await chalkText(
+          `<mgnt>TIP:</mgnt> Make sure the node called <ylw>${nodeName}</ylw> truly exists.`
+        )
+      );
     }
   },
   // --help

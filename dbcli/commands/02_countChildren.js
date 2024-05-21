@@ -1,4 +1,5 @@
 // Functions
+const displayResult = require("../functions/displayResult");
 const runQuery = require("../functions/runQuery");
 
 // Query
@@ -15,16 +16,19 @@ const command = {
     const nodeName = argv["node_name"]; // Creates a handler for the relevant argument.
 
     // Runs the query.
-    const queryResult = await runQuery(query, { categoryName: nodeName });
+    const { queryResult, executionTime } = await runQuery(query, {
+      categoryName: nodeName,
+    });
+
     // Reads the query
     const childrenCount = queryResult.records[0].get("childrenCount");
-    // Formats the result.
-    const chalkTitle = chalk.bold(`"${nodeName}"`);
-    const chalkResult = chalk.yellow.bold(`${childrenCount}`);
+    
     // Displays the result.
-    console.log(
-      `The amount of children of the node ${chalkTitle} is: ${chalkResult}`
-    );
+    await displayResult({
+      executionTime,
+      header: `The amount of children of the node "<bold>${nodeName}</bold>" is:`,
+      data: `<ylw>${childrenCount}</ylw>`,
+    });
   },
   // --help
   builder: (yargs) => {

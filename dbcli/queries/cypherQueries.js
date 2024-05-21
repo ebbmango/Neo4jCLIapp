@@ -50,29 +50,29 @@ ORDER BY r
 LIMIT $amount
 `;
 
-// 09a - This query finds out what is THE HIGHEST AMOUNT OF CHILDREN that a node has.
-const countMaxChildrenQuery = `
+// 09 - This query return all nodes that have the most children (there could be more than one)
+const findFertileNodesQuery = `
 MATCH (node:Category)-[:HAS_SUBCATEGORY]->(child:Category)
 WITH node, COUNT(child) AS childrenCount
-WITH MAX(childrenCount) AS maxChildrenCount
-RETURN maxChildrenCount;
+WITH collect({node: node, count: childrenCount}) AS nodesAndCounts, MAX(childrenCount) AS maxChildrenCount
+UNWIND nodesAndCounts AS nc
+WITH nc.node AS node, nc.count AS childCount, maxChildrenCount
+WHERE childCount = maxChildrenCount
+RETURN node
+ORDER BY node.name ASC;
 `;
 
-// 10b This query finds out what is THE LOWEST AMOUNT OF CHILDREN that a node has.
-const countMinChildrenQuery = `
+
+// 10 - This query finds out what is THE HIGHEST AMOUNT OF CHILDREN that a node has.
+const findInfertileNodesQuery = `
 MATCH (node:Category)-[:HAS_SUBCATEGORY]->(child:Category)
 WITH node, COUNT(child) AS childrenCount
-WITH MIN(childrenCount) AS minChildrenCount
-RETURN minChildrenCount;
-`;
-
-// 09b & 10b - This query FINDS ALL NODES whose AMOUNT OF CHILDREN is given by the "amount" parameter.
-const findNodesWithChildrenAmountQuery = `
-MATCH (node:Category)-[:HAS_SUBCATEGORY]->(child:Category)
-WITH node, COUNT(child) AS childCount
-WHERE childCount = $amount
-RETURN node, childCount
-ORDER BY node.name ASC 
+WITH collect({node: node, count: childrenCount}) AS nodesAndCounts, MIN(childrenCount) AS minChildrenCount
+UNWIND nodesAndCounts AS nc
+WITH nc.node AS node, nc.count AS childCount, minChildrenCount
+WHERE childCount = minChildrenCount
+RETURN node
+ORDER BY node.name ASC;
 `;
 
 // 11 - This query RENAMES the node whose name is given by the "categoryName" parameter.
@@ -105,9 +105,8 @@ module.exports = {
   findGrandparentsQuery,
   countUniqueNodesQuery,
   findRandomRootQuery,
-  countMaxChildrenQuery,
-  countMinChildrenQuery,
-  findNodesWithChildrenAmountQuery,
+  findFertileNodesQuery,
+  findInfertileNodesQuery,
   renameQuery,
   findPathsQuery,
 };

@@ -3,7 +3,7 @@
   const { default: chalk } = await import("chalk");
   const yargs = require("yargs");
 
-  // preliminary
+  // db setup
   const load = require("../commands/00_load.js");
   const connect = require("../commands/00_connect.js");
 

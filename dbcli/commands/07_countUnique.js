@@ -1,4 +1,5 @@
 // Functions
+const displayResult = require("../functions/displayResult");
 const runQuery = require("../functions/runQuery");
 
 // Query
@@ -13,16 +14,17 @@ const command = {
     const { default: chalk } = await import("chalk");
 
     // Runs the query.
-    const queryResult = await runQuery(query);
+    const { queryResult, executionTime } = await runQuery(query);
+
+    // Reads the result
     const uniqueCount = queryResult.records[0].get("uniqueCount");
-    // Formats the result.
-    const formattedCount = new Intl.NumberFormat("en", {
-      minimumIntegerDigits: 3,
-    }).format(uniqueCount);
-    const chalkTitle = chalk.bold("uniquely named nodes");
-    const chalkContent = chalk.yellow.bold(`${formattedCount}`);
+
     // Displays the result.
-    console.log(`The amount of ${chalkTitle} is: ${chalkContent}`);
+    await displayResult({
+      executionTime,
+      header: `The amount of <bold>uniquely named nodes</bold> is:`,
+      data: `<ylw>${uniqueCount}</ylw>`,
+    });
   },
 };
 

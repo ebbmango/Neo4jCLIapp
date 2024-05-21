@@ -4,6 +4,9 @@ const neo4j = require("neo4j-driver");
 // Functions
 const runQuery = require("../functions/runQuery");
 const { findPathsQuery: query } = require("../queries/cypherQueries");
+const runQueryWithSpinner = require("../functions/runQueryWithSpinner");
+const chalkText = require("../functions/chalkText");
+const displayResult = require("../functions/displayResult");
 
 const command = {
   command: "12 <node_1> <node_2>",
@@ -16,13 +19,20 @@ const command = {
 
     const node01 = argv["node_1"];
     const node02 = argv["node_2"];
-    const maxLevel = argv["level"];
+    const maxLevel = argv["depth"];
 
     // Running the query
-    const queryResult = await runQuery(query, {
-      nodeFrom: node01,
-      nodeTo: node02,
-      maxDistance: neo4j.int(maxLevel),
+    const { queryResult, executionTime } = await runQueryWithSpinner({
+      query,
+      queryParameters: {
+        nodeFrom: node01,
+        nodeTo: node02,
+        maxDistance: neo4j.int(maxLevel),
+      },
+      loadingText: await chalkText(
+        `Finding all paths between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw> (max depth: <ylw>${maxLevel})</ylw>`
+      ),
+      successText: "Query completed.",
     });
 
     const paths = [];
@@ -53,26 +63,47 @@ const command = {
       paths.push(path);
     });
 
-    // Logging each path to the console.
-    paths.forEach((path) => {
-      console.log(`${path.join(" → ")}\n`);
+    // Formatting the result:
+    const displayStringElements = [];
+
+    paths.forEach(async (path) => {
+      const depth = path.length - 1;
+
+      const pathString = path
+        .map((node) => {
+          return chalk.yellow(node);
+        })
+        .join(`\n${chalk.bgYellow(" → ")} `);
+
+      displayStringElements.push(`${pathString} (depth: ${depth})`);
+    });
+
+    const displayString = displayStringElements.join("\n\n");
+
+    // Displaying the result:
+    displayResult({
+      executionTime,
+      header: `\n<wht>All paths</wht> between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw>:\n`,
+      data: displayString,
     });
   },
   // --help
   builder: (yargs) => {
     return yargs
       .positional("<node_name>", {
-        describe: "Specifies the current name of the node you intend to rename.",
+        describe:
+          "Specifies the current name of the node you intend to rename.",
         type: "string",
       })
       .positional("<new_name>", {
         describe: "Specifies the new name you wish to assign to the node.",
         type: "string",
       })
-      .option("level", {
-        describe: "Specifies the maximum depth of the search tree. Greater depths may lead to longer execution times.",
+      .option("depth", {
+        describe:
+          "Specifies the maximum depth of the search tree. Greater depths may lead to longer execution times.",
         type: "integer",
-        default: 15, 
+        default: 15,
       })
       .strict(); // Enables strict mode: throws an error for too many arguments.
   },

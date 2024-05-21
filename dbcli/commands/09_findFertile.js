@@ -6,7 +6,9 @@ const runQuery = require("../functions/runQuery");
 const logsFullArray = require("../functions/logsFullArray");
 
 // Queries
-const { countMaxChildrenQuery, findNodesWithChildrenAmountQuery } = require("../queries/cypherQueries");
+const { findFertileNodesQuery: query } = require("../queries/cypherQueries");
+const displayResult = require("../functions/displayResult");
+const runQueryWithSpinner = require("../functions/runQueryWithSpinner");
 
 const command = {
   command: "9",
@@ -17,24 +19,25 @@ const command = {
   handler: async (argv) => {
     const { default: chalk } = await import("chalk");
 
-      // Runs the queries.
-      const countQueryResult = await runQuery(countMaxChildrenQuery, {});
-      const maxChildrenCount = countQueryResult.records[0].get("maxChildrenCount")
-      
-      const findQueryResult = await runQuery(findNodesWithChildrenAmountQuery, {amount: neo4j.int(maxChildrenCount)})
-      const fertileNodes = findQueryResult.records.map((record) => record.get("node").properties.name);
+    // Runs the query.
+    const { queryResult, executionTime } = await runQueryWithSpinner({
+      query,
+      queryParameters: {},
+      loadingText: "Finding all nodes with the most children",
+      successText: "Query completed."
+    });
 
-      // Formats the result.
-      const chalkHighlight = chalk.bold("with the most children");
-      const formattedAmount = new Intl.NumberFormat("en", {minimumIntegerDigits: 3}).format(maxChildrenCount);
-      const chalkAmount = chalk.yellow(formattedAmount)
-      const chalkTitle = `${chalkHighlight} (${chalkAmount})`
-      const singleResult = fertileNodes.length === 1;
-      const headerLine = `The ${singleResult ? "node" : "nodes"} ${chalkTitle} ${singleResult? "is" : "are"}:\n`
-      // Displays the result.
-      console.log(headerLine);
-      await logsFullArray(fertileNodes);
+    // Reads the query.
+    const fertileNodes = queryResult.records.map(
+      (record) => record.get("node").properties.name
+    );
 
+    // Displays the result
+    await displayResult({
+      executionTime,
+      header: `Nodes with <bold>the highest amount of children</bold>:`,
+      data: fertileNodes,
+    });
   },
 };
 
