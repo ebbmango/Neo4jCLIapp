@@ -80,13 +80,21 @@ const renameQuery = `
 MATCH (node:Category {name: $categoryName})
 SET node.name = $newName
 RETURN node
-`
+`;
 
-// 12 - 
+// 12 - This query FINDS ALL PATHS starting at the node {name: $nodeFrom} and leading (always "downwards") to the node {name: $nodeTo}.
+// However, since the database is HUGE, the $maxDistance parameter stops the search when the path spans a user-determined amount of levels.
 const findPathsQuery = `
-MATCH paths = (start:Category{name: $fromNode})-[:HAS_SUBCATEGORY*]->(end:Category{name: $toNode})
-RETURN paths
-`
+MATCH (startNode {name: $nodeFrom})
+WITH startNode
+MATCH (endNode {name: $nodeTo})
+CALL apoc.path.expandConfig(startNode, {
+  relationshipFilter: 'HAS_SUBCATEGORY>',
+  endNodes: [endNode],
+  maxLevel: $maxDistance
+}) YIELD path
+RETURN path
+`;
 
 module.exports = {
   findChildrenQuery,
@@ -101,5 +109,5 @@ module.exports = {
   countMinChildrenQuery,
   findNodesWithChildrenAmountQuery,
   renameQuery,
-  findPathsQuery
+  findPathsQuery,
 };

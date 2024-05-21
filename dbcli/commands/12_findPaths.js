@@ -17,23 +17,44 @@ const command = {
     const node01 = argv["node_1"];
     const node02 = argv["node_2"];
 
+    // Running the query
     const queryResult = await runQuery(query, {
-      fromNode: node01,
-      toNode: node02,
+      nodeFrom: node01,
+      nodeTo: node02,
+      maxDistance: neo4j.int(5),
     });
 
-    const path = [];
+    const paths = [];
 
-    // queryResult
-
-    queryResult.records[0].get("paths").segments.forEach((segment) => {
-      const startNode = segment.start.properties.name;
-      const endNode = segment.end.properties.name;
-      if (path.indexOf(startNode) === -1) path.push(startNode);
-      if (path.indexOf(endNode) === -1) path.push(endNode);
+    // Extracting all paths
+    const pathObjects = queryResult.records.map((record) => {
+      return record.get("path");
     });
 
-    console.log(path.join(" → "));
+    // Reading each individual path
+    pathObjects.forEach((pathObject) => {
+      // Initializing an array to hold the names of each traversed node.
+      const path = [];
+
+      // Adding the start of the path to the array.
+      path.push(pathObject.start.properties.name);
+
+      // Adding each traversed path along the way to the array.
+      const segments = pathObject.segments;
+      for (let i = 1; i < segments.length; i++) {
+        path.push(segments[i].start.properties.name);
+      }
+
+      // Adding the end of the path to the array.
+      path.push(pathObject.end.properties.name);
+
+      // Pushing the array to the paths array.
+      paths.push(path);
+    });
+
+    paths.forEach((path) => {
+      console.log(`${path.join(" → ")}\n`);
+    });
   },
 };
 
