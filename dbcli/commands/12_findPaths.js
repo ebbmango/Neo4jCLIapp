@@ -16,12 +16,13 @@ const command = {
 
     const node01 = argv["node_1"];
     const node02 = argv["node_2"];
+    const maxLevel = argv["level"];
 
     // Running the query
     const queryResult = await runQuery(query, {
       nodeFrom: node01,
       nodeTo: node02,
-      maxDistance: neo4j.int(5),
+      maxDistance: neo4j.int(maxLevel),
     });
 
     const paths = [];
@@ -56,6 +57,24 @@ const command = {
     paths.forEach((path) => {
       console.log(`${path.join(" → ")}\n`);
     });
+  },
+  // --help
+  builder: (yargs) => {
+    return yargs
+      .positional("<node_name>", {
+        describe: "Specifies the current name of the node you intend to rename.",
+        type: "string",
+      })
+      .positional("<new_name>", {
+        describe: "Specifies the new name you wish to assign to the node.",
+        type: "string",
+      })
+      .option("level", {
+        describe: "Specifies the maximum depth of the search tree. Greater depths may lead to longer execution times.",
+        type: "integer",
+        default: 15, 
+      })
+      .strict(); // Enables strict mode: throws an error for too many arguments.
   },
 };
 
