@@ -15,7 +15,7 @@ function msToString(milliseconds) {
     result += `${minutes.toString().padStart(2, "0")}m `;
   if (seconds > 0 || minutes > 0 || hours > 0)
     result += `${seconds.toString().padStart(2, "0")}s `;
-  result += `${milliseconds.toString().padStart(3, "0")}ms`;
+  result += `${Math.floor(milliseconds).toString().padStart(3, "0")}ms`;
   return result.trim();
 }
 
