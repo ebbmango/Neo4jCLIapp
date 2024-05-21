@@ -1,5 +1,6 @@
 // libraries
 const neo4j = require("neo4j-driver");
+const updateSpinner = require("./updateSpinner");
 
 // MAIN: This functions runs a query and informs the user of its current execution status.
 async function runQueryWithSpinner({
@@ -31,27 +32,6 @@ async function runQueryWithSpinner({
   await driver.close();
 
   return { queryResult: result, executionTime: endTime - startTime };
-}
-
-// Auxiliary functions:
-
-// This function updates the spinner's text and color.
-function updateSpinner(spinner) {
-  const colors = ["green", "yellow", "blue", "magenta", "cyan"];
-  const dots = ["", ".", "..", "..."];
-
-  let colorIndex = 0;
-  let dotIndex = 0;
-
-  setInterval(() => {
-    // Updates color
-    spinner.color = colors[colorIndex];
-    colorIndex = (colorIndex + 1) % colors.length;
-
-    // Updates dots
-    spinner.text = spinner.text.replace(/[.]/g, "") + dots[dotIndex];
-    dotIndex = (dotIndex + 1) % dots.length;
-  }, 1000); // Every second
 }
 
 module.exports = runQueryWithSpinner;
