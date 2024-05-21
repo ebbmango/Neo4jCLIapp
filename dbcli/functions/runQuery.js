@@ -5,12 +5,12 @@ const runQuery = async (query, queryParameters) => {
   const driver = neo4j.driver("bolt://localhost:7687");
   const session = driver.session();
 
-  var startTime = performance.now();
+  const startTime = performance.now();
 
   // Runs the query.
   const result = await session.run(query, queryParameters);
 
-  var endTime = performance.now();
+  const endTime = performance.now();
 
   // Terminates the queries' runner.
   await session.close();

@@ -8,7 +8,7 @@ async function displayResult({ executionTime, header, data }) {
   // Displays retrieved data
   if (data) {
     if (Array.isArray(data)) {
-      logsFullArray(data);
+      await logsFullArray(data);
     } else {
       console.log(await chalkText(data));
     }
