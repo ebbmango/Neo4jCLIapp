@@ -7,7 +7,6 @@ const command = {
   describe: "Creates a Neo4J database and connects to it.",
   handler: async (argv) => {
     const importDir = path.resolve(__dirname, "../import");
-    console.log(importDir);
 
     // Get the current user ID and group ID
     const uid = os.userInfo().uid;
