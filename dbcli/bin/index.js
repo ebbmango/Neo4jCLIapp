@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 (async () => {
-  const { default: chalk } = await import("chalk");
   const yargs = require("yargs");
 
   // db setup
@@ -9,7 +8,6 @@
 
   // tasks
   const commands = require("../commands/indexCommands.js");
-  const test = require("../commands/13_test.js");
 
   // yargs
   const checkConnection = require("../yargs/checkConnection");
@@ -34,7 +32,6 @@
       .command(commands.findFertile)
       .command(commands.renameNode)
       .command(commands.findPaths)
-      .command(test)
       .help() // enables "--help" command
       .version(false) // disables "--version" command
       .check(checkConnection)
