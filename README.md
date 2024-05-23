@@ -14,9 +14,10 @@
 3. npx 
     : which version?
 4. docker 
-    : which version ? 
-5. neo4j for database
+    : Docker version 26.1.1
     : 
+5. neo4j for database
+    : 5.19.0
 
 
 ## Architecture: components and interactions, optional diagram
@@ -37,6 +38,21 @@ presentation layer : user interface of the program?
 - **Docker Desktop**  
     Please follow the instructions at the [The Official Docker Documentation](https://docs.docker.com/get-docker/) website to download Docker in your local machine.
 
+- After installed docker on your laptop, check it is correctly installed with command below
+
+```linux
+$ docker images
+```
+- To use neo4j image in the container, download neo4j image from here [](https://hub.docker.com/_/neo4j) . 
+
+```linux
+$ docker pull neo4j
+```
+You can also check whether neo4j image correctly installed by the `docker image` command.
+
+
+
+
 - **Command Line Interface**
     1. Download this repository into your local machine.
 
@@ -49,20 +65,27 @@ presentation layer : user interface of the program?
 
 obs: running `bin/index.js <command> <args>` also works 
 
-
-
-
 ## User manual 
 
 
 
-## Design of database
 
+## Design of database
+- 
 
 
 
 ## Implementation process, step by step.
 
+- Load data from csv file into neo4j grphical database
+```javascript
+dbcli load taxonomy_iw.csv
+
+```
+
+- Implement cypher query to get the result of target question number
+
+- Run the functions of runQuery.js
 
 
 
@@ -75,8 +98,41 @@ Heesung Kim
 ## Results
 
 
+- Load CSV file 
+```javascript
+
+$ dbcli load taxonomy_iw.csv
+
+Elapsed time : 04m 44s
+
+
+```
+
+- Find children
+
+```javascript
+$
+
+
+```
+
+
+
 
 ## A step-by-step manual how to reproduce the results.
+
+- Connect datbase 
+```javascript
+user$ dbcli connect
+
+```
+
+- Load CSV file
+
+```javascript
+user$ dbcli load taxonomy_iw.csv
+
+```
 
 
 
