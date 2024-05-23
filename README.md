@@ -6,9 +6,33 @@
     b. Implement it with MongoDB
     c. The API will retriev the data which satisfying the client's requirments -->
 
-Text comes here
+## Choice of technology
+1. javascript 
+    : which version ? 
+2. npm 
+    : which version ? 
+3. npx 
+    : which version?
+4. docker 
+    : which version ? 
+5. neo4j for database
+    : 
 
-## Installation & prerequisite
+
+## Architecture: components and interactions, optional diagram
+How this program works? 
+
+application layer  : communicating with database , implmented by javascript driver? 
+data layer : local machine? or docker? 
+presentation layer : user interface of the program?
+
+## prerequisite 
+
+
+
+
+
+## Installation and setup instructions
 
 - **Docker Desktop**  
     Please follow the instructions at the [The Official Docker Documentation](https://docs.docker.com/get-docker/) website to download Docker in your local machine.
@@ -16,7 +40,7 @@ Text comes here
 - **Command Line Interface**
     1. Download this repository into your local machine.
 
-    2. Navigate to the repository's *dbcli* directory.
+    2. Navigate to the repository's *dbcli* directory.l
 
     3. Once in the *dbcli* directory, choose the installation option that suits you the most:
 
@@ -25,33 +49,46 @@ Text comes here
 
 obs: running `bin/index.js <command> <args>` also works 
 
+
+
+
+## User manual 
+
+
+
 ## Design of database
 
-<!-- To begin with MongDB, please run your database in your local machine
- : `brew services start mongodb-community@7.0`
-You can also quit the database whenever you want 
- : `brew services stop mongodb-community@7.0`
-
-1. Make a relationship with objects within the database. 
-    - TREE like structures between objects
-    - 'Reference' type documentations to implements `$graphlookup` for the query
-
-To learn more about [references](https://www.mongodb.com/docs/manual/data-modeling/concepts/embedding-vs-references/#std-label-data-modeling-referencing), please refer to the link. 
-
-2. Mapping the schema relationships
-    - Mapping relationships between data entities affects your application's performance and scalability.
-    - The imported database may have many-to-many relationship between fields 
-    - To optimize queries, it should refer to the _ID in other collections. [Example](https://www.mongodb.com/docs/manual/data-modeling/schema-design-process/map-relationships/#std-label-data-modeling-map-relationships)
-
-3. The extended pattern 
-    - Here is the example [Extended pattern](https://www.mongodb.com/blog/post/building-with-patterns-the-extended-reference-pattern)
 
 
-4. Aggregation pipelines
-    - To build database pattern of tree structue, it applies [Aggregation](https://www.mongodb.com/docs/manual/core/aggregation-pipeline-optimization/)
+
+## Implementation process, step by step.
 
 
-*** -->
+
+
+## Project members
+**which contributions for what should be reported here !
+
+Barros Borges Emanuel  
+Heesung Kim
+
+## Results
+
+
+
+## A step-by-step manual how to reproduce the results.
+
+
+
+## Self-evaluation: efficiency should be discussed.
+
+
+
+## Strategies for future mitigation of identified shortcomings.
+
+
+
+
 
 # Editing this README
 
@@ -72,41 +109,3 @@ Java driver on your local machine.
 Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 */
 
-## Project members
-**which contributions for what should be reported here !
-
-Barros Borges Emanuel  
-Chakraborty Pritam\
-Heesung Kim
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap (can be editted)
-1. Select the right database
-2. Generate the datamodel of the projects
-3. Investigate the imported CSV files and objects relations. 
-4. Implement the query to satisfying the client requirements.
-5. Validate the results of unit testings. 
-
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## License
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
