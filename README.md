@@ -46,25 +46,25 @@ Which libraries ? Why this libraries?
 
 - After installed docker on your laptop, check it is correctly installed with command below
 
-```linux
+```bash
 $ docker images
 ```
 - To use neo4j image in the container, download neo4j image from here [](https://hub.docker.com/_/neo4j) . 
 
-```linux
+```bash
 $ docker pull neo4j
 ```
 You can also check whether neo4j image correctly installed by the `docker image` command.
 
 - To create container to importing neo4j image, 
 
-```linux
+```bash
 $ docker run neo4j
 $ docker ps
 ```
 - If you want to stop, 
 
-```linux
+```bash
 $ docker stop neo4j
 ```
 
@@ -263,7 +263,6 @@ Elapsed time : 0.1998s
 9. Find root nodes
 
 ```bash
-
 $ dbcli 8 (--amount = <number>)
 [
     The_Jesus _and_Mary_Chain,
@@ -274,12 +273,10 @@ $ dbcli 8 (--amount = <number>)
     Chris Cutler
 ]
 Elapsed time : 0.4805s
-
 ```
 
 10. Find nodes with the most children
 ```bash
-
 $ dbcli 9 
 
 [ Albums_by_artist ]
@@ -289,6 +286,7 @@ Elapsed time : 3.3786s
 
 11. Find nodes with the least children (number of children is greater than zero)
 
+```bash
 $ dbcli 10
 
 [ 
@@ -317,7 +315,6 @@ Elapsed time : 0.0698s
 13. Find all paths between two given nodes, with directed edge from the first to the second node
 
 ```bash
-
 $ dbcli 12 "Government_of _Belarus" "Lukashenko_family"
 
 [
