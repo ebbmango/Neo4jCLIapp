@@ -3,138 +3,161 @@
 ## Introduction
 
 This project's aim is the following:
-    a. Design the database of the given file
-    b. Implement it with neo4j
-    c. The API will retriev the data which satisfying the client's requirments
 
+1. Devise a database in which to organize the data given by the file "taxonomy_iw.csv", effectively mimicking [Wikipedia](https://www.wikipedia.org/)'s articles' hierarchical taxonomy at a given point in time.
+
+2. Implement it using Neo4j.
+
+3. Develop a Command Line Interface (CLI) to facilitate interaction with the database, adhering to a predetermined set of functionalities. The CLI will enable users to perform specified tasks, such as data retrieval and manipulation, through the issuance of commands.
 
 ## Choice of technology
 
-1. Node.js (javascript runtime)
-    : v18.18.0
-2. npm(node.js package manager of module)
-    : 9.8.1
-3. Docker (application containers)
-    : Docker version 26.1.1
-4. neo4j for database
-    : 5.19.0
+1. **JavaScript**: The programming language used for developing the CLI application. It is utilized within the Node.js environment to write the logic, functionality, and behavior of the CLI.
 
+2. **Node.js**: The [runtime environment](https://stackoverflow.com/questions/3900549/what-is-runtime) that allows [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) code to be executed outside of a web browser. It is recommended to be at version 18 or later.
+
+3. **npm**: [Package manager for Node.js](https://www.npmjs.com/) which is used for installing, sharing, and managing dependencies for Node.js projects. This project requires a minimum version of 6.0.0. However, it is strongly recommended to use the latest available version.
+
+4. **Docker**: A platform for [containerizing](https://aws.amazon.com/what-is/containerization/) applications. We used [Docker](https://www.docker.com/) to instantiate the database, ensuring our application's portability and consistency across different environments.
+
+5. **Neo4j**: The chosen database management system for storing and managing the relevant data. Given that our data consists entirely of nodes connected by a single directed ridge, we decided that [Neo4j](https://neo4j.com/) – being a [graph database](https://neo4j.com/docs/getting-started/get-started-with-neo4j/graph-database/) system – would more efficiently suit our neeeds.
 
 ## Architecture: components and interactions, optional diagram
+
 <Must revie this section!!>
-How this program works? 
-Applications runs on docker containers 
-Database of neo4j will run by <driver>? 
+How this program works?
+Applications runs on docker containers
+Database of neo4j will run by <driver>?
 Presentation will be command line argument API
-Which libraries ? Why this libraries? 
+Which libraries ? Why this libraries?
 
-
-## prerequisite 
+## Prerequisites
 
 1. Install node.js
-    - [Guide to installation](https://nodejs.org/en/download/package-manager)
 
-2. Place CSV to your working directory 
+   - [Guide to installation](https://nodejs.org/en/download/package-manager)
+
+2. Place CSV to your working directory
 
 3. Download this repository into your local machine.
-
 
 ## Installation and setup instructions
 
 1. **Docker Desktop**  
-    Please follow the instructions at the [The Official Docker Documentation](https://docs.docker.com/get-docker/) website to download Docker in your local machine.
+   Please follow the instructions at the [The Official Docker Documentation](https://docs.docker.com/get-docker/) website to download Docker in your local machine.
 
 - After installed docker on your laptop, check it is correctly installed with command below
 
 ```bash
 $ docker images
 ```
-- To use neo4j image in the container, download neo4j image from here [](https://hub.docker.com/_/neo4j) . 
+
+- To use neo4j image in the container, download neo4j image from here [](https://hub.docker.com/_/neo4j) .
 
 ```bash
 $ docker pull neo4j
 ```
+
 You can also check whether neo4j image correctly installed by the `docker image` command.
 
-- To create container to importing neo4j image, 
+- To create container to importing neo4j image,
 
 ```bash
 $ docker run neo4j
 $ docker ps
 ```
-- If you want to stop, 
+
+- If you want to stop,
 
 ```bash
 $ docker stop neo4j
 ```
 
 2. **Command Line Interface**
-    - Navigate to the repository's *dbcli* directory.
 
-    - Once in the *dbcli* directory, choose the installation option that suits you the most:
+   - Navigate to the repository's _dbcli_ directory.
 
-        a. For those comfortable with enabling **root access**: `sudo npm install -g .` installs the CLI application **globally**. This means that you can use it **anywhere in your machine** by simply running `dbcli <args>`.
-        b. For those who would rather not, `npm install .` installs the CLI application and makes it available for usage **in the *dbcli* folder exclusively**. Additionally, [npx](https://docs.npmjs.com/cli/v8/commands/npx) will be needed to run the application: `npx dbcli <args>`
+   - Once in the _dbcli_ directory, choose the installation option that suits you the most:
 
-        >!!! in the dbcli folder, `$ dbcli connect` is not working after `npm install .`. Need to correct it !!!
+     a. For those comfortable with enabling **root access**: `sudo npm install -g .` installs the CLI application **globally**. This means that you can use it **anywhere in your machine** by simply running `dbcli <args>`.
+     b. For those who would rather not, `npm install .` installs the CLI application and makes it available for usage **in the _dbcli_ folder exclusively**. Additionally, [npx](https://docs.npmjs.com/cli/v8/commands/npx) will be needed to run the application: `npx dbcli <args>`
 
-obs: running `bin/index.js <command> <args>` also works 
+     > !!! in the dbcli folder, `$ dbcli connect` is not working after `npm install .`. Need to correct it !!!
 
-## User manual 
+obs: running `bin/index.js <command> <args>` also works
 
-0. Connect neo4j databas with the command
+## User manual
+
+#### Ensure connection to the database
+
 ```bash
 $ dbcli connect
 ```
 
-1. Load CSV file into your database
+#### Loading the CSV file into your database
 
-- It referes to [Optimizing LOAD CSV for performance](https://neo4j.com/docs/getting-started/data-import/csv-import/#optimizing-load-csv) to secure performance wise to load csv file. 
+To load the CSV file into the database, first the **file must be located at the _import_ directory** of the _dbcli_ folder:
+
+```
+$ ls dbcli/import
+taxonomy_iw.csv
+```
+
+This is due to (Neo4j's)[https://neo4j.com/docs/getting-started/data-import/csv-import/] and Docker's configuration. In short: to import files
+
+- It referes to [Optimizing LOAD CSV for performance](https://neo4j.com/docs/getting-started/data-import/csv-import/#optimizing-load-csv) to secure performance wise to load csv file.
 
 ```bash
 $ dbcli load taxonomy_iw.csv
 ```
 
-2. Run command in your terminal. 
+#### Interacting with the database
 
 ```bash
 $ dbcli <Question Number> <Given node>
 ex. $ dbcli 1 1880s_films
 ```
 
-## Design of database
-- how design of database ? <Please locate how to desing of this database>
+## Database design
 
+The design of the database is very simple, and further insight can be gained on it by reading the Cypher Queries used to load the data from the CSV file into the database. These queries can be found in the _queries_ directory, specifically queries `loadCategoriesQuery` and `loadRelationshipsQuery` from the file _uploadQueries.js_.
 
+In summary, as previously stated, it consists entirely of **nodes connected by a single directed ridge.** Each node represents an article in Wikipedia, and all the nodes to which it connects represent a subarticle, so to speak, that is: an article to which it connects.
 
+This effectively mimicks Wikipedia's articles' taxonomy at a given point in time, with broader and more general articles encompassing and nesting narrower and more specialized articles, as can be seen [in the examples below](#results).
 
-## Implementation process, step by step.
+## Implementation process
 
-1. Implementation to loading CSV file. 
+<!-- ASK TEACHER: Is it about the implementation of the database or the CLI? -->
 
- - Sets up a UNIQUENESS constraint on the "name" property of each "Category" node
- ```javascript
- const constraintsQuery = `
+1. Implementation to loading CSV file.
+
+- Sets up a UNIQUENESS constraint on the "name" property of each "Category" node
+
+```javascript
+const constraintsQuery = `
 CREATE CONSTRAINT IF NOT EXISTS FOR (c:Category)
 REQUIRE c.name IS UNIQUE;
 `;
- ```
+```
 
- - Generates nodes 
- ```javascript
+- Generates nodes
+
+```javascript
 const loadCategoriesQuery = `
 LOAD CSV FROM $filePath AS row
 WITH trim(row[0]) AS category, trim(row[1]) AS subcategory
 WHERE category IS NOT NULL AND subcategory IS NOT NULL
 CALL {
-  WITH category, subcategory
-  MERGE (c:Category {name: category})
-  MERGE (s:Category {name: subcategory})
+ WITH category, subcategory
+ MERGE (c:Category {name: category})
+ MERGE (s:Category {name: subcategory})
 } IN TRANSACTIONS OF 100000 ROWS;
 `;
- ```
+```
 
 - Add edges between category and subcategory columns
+
 ```javascript
 const loadRelationshipsQuery = `
 LOAD CSV FROM $filePath AS row
@@ -151,7 +174,7 @@ CALL {
 
 2. Implement cypher query to get the result of target question number
 
-- For example, if you find a children of given node, 
+- For example, if you find a children of given node,
 
 ```javascript
 const findChildrenQuery = ` 
@@ -161,135 +184,211 @@ ORDER BY child.name ASC
 `;
 ```
 
-- Other details implementation can be found in here `queries\cypherQueries.js`. 
+- Other details implementation can be found in here `queries\cypherQueries.js`.
 
+3. Implement command scripts to employing cypher query script.
 
-3. Implement command scripts to employing cypher query script. 
-
-- To execute query with command, applies predefiend functions of `runQuery.js`. 
+- To execute query with command, applies predefiend functions of `runQuery.js`.
 - To display results of performance wise, it applies `displayResult.js`.
 
 ## Results
 
-1. Load CSV file 
-```bash
+#### Setting up of the database:
+
+Loading the data from the CSV file into the database.
+
+```
 $ dbcli load taxonomy_iw.csv
+✔ Nodes loaded successfully.
+✔ Relationships loaded successfully.
+✔ Database has been successfully filled with data from the CSV file.
 
-Elapsed time : 04m 44s
+Elapsed time: 04m 43s 728ms
 ```
 
-2. Find children
+#### Task 01
 
-```bash
-$ dbcli 1 Alexander_Lukashenko
+Finding all children of a given node:
 
-[ Lukashenko_family]
-Elapsed time : 0.0191s
-Vs 1.589s of MongoDB
 ```
-
-3. Count children
-
-```bash
-$ dbcli 2 Alexander_Lukashenko
-
-1
-Elapsed time : 0.0606s
-Vs 1.447s of MongoDB
-```
-
-4. Find grandchildren
-
-```bash
-$ dbcli 3 Alexander_Lukashenko
-
-[]
-Elapsed time : 0.1088s
-Vs 1.441s of MongoDB
-```
-
-5. Find parent
-
-```bash
-$ dbcli 4 Alexander_Lukashenko
-[
-    Belarusian_individuals_subject_to_the_U.S._Department_of_the_Treasury_sanctions,
-    Presidents_of_Belarus
-]
-
-Elapsed time : 0.0196s
-Vs 1.486s of MongoDB
-```
-
-6. Count parent
-
-```bash
-$ dbcli 5 Alexander_Lukashenko
-
-2
-Elapsed time : 0.0440s
-```
-
-7. Find grandparents
-
-```bash
-$ dbcli 6 Alexander_Lukashenko
+$ dbcli 1 Engineering_universities_and_colleges_in_Poland
+All children of the node "Engineering_universities_and_colleges_in_Poland":
 
 [
-    Belarus-United_States_relations,
-    Candidates_for_President_of_Belarus,
-    Government_of _Belarus,
-    Heads_of_state_of_Belarus,
-    political office-holders_ in_Belarus,
-    Presidents_by_country,
-    sanctions_against_Belarus
-    United_States_Department_of_the_Treasury,
-    United States sanctions
+  AGH_University_of_Science_and_Technology,
+  Szczecin_University_of_Technology,
+  Wrocław_University_of_Science_and_Technology,
+  Łódź_University_of_Technology
 ]
-Elapsed time : 0.0213s
-Vs 1.707s of MongoDB
+
+Execution time: 0.0184 seconds
 ```
 
-8. Find unique nodes
+<!-- Insert mongoDB time here -->
 
-```bash
-$ dbcli 7 
+---
 
+#### Task 02
+
+Counting all children of a given node:
+
+```
+dbcli 2 Engineering_universities_and_colleges_in_Poland
+The amount of children of the node "Engineering_universities_and_colleges_in_Poland" is:
+4
+
+Execution time: 0.0495 seconds
+```
+
+<!-- Insert mongoDB time here -->
+
+---
+
+#### Task 03
+
+Finding all grandchildren of a given node:
+
+```
+$ dbcli 3 Presidents_of_Belarus
+All grandchildren of the node "Presidents_of_Belarus":
+
+[ Lukashenko_family ]
+
+Execution time: 0.0158 seconds
+```
+
+<!-- Insert mongoDB time here -->
+
+---
+
+#### Task 04
+
+Finding all parents of a given node:
+
+```
+$ dbcli 4 Tourism_in_South_Korea
+All parents of the node "Tourism_in_South_Korea":
+
+[
+  Service_industries_in_South_Korea,
+  Tourism_by_country,
+  Tourism_in_Asia_by_country,
+  Tourism_in_Korea
+]
+
+Execution time: 0.0161 seconds
+```
+
+<!-- Insert mongoDB time here -->
+
+---
+
+#### Task 05
+
+Counting all parents of a given node:
+
+```
+$ dbcli 5 Tourism_in_South_Korea
+The amount of parents of the node "Tourism_in_South_Korea" is:
+4
+
+Execution time: 0.0353 seconds
+```
+
+<!-- Insert mongoDB time here -->
+
+---
+
+#### Task 06
+
+Finding all grandparents of a given node:
+
+```
+$ dbcli 6 Tourism_in_South_Korea
+All grandparents of the node "Tourism_in_South_Korea":
+
+[
+  Industry_in_South_Korea,
+  Leisure_by_country,
+  Service_industries_by_country,
+  Service_industries_by_country,
+  Service_industries_in_Asia_by_country,
+  Service_industries_in_Asia_by_country,
+  Service_industries_in_Korea,
+  Tourism,
+  Tourism_in_Asia,
+  Tourism_in_Asia
+]
+
+Execution time: 0.0367 seconds
+```
+
+<!-- Insert mongoDB time here -->
+
+---
+
+#### Task 07
+
+Counting how many uniquely named nodes there are:
+
+```
+$ dbcli 7
+The amount of uniquely named nodes is:
 2031337
-Elapsed time : 0.1998s
 
+Execution time: 0.3419 seconds
 ```
 
-9. Find root nodes
+<!-- Insert mongoDB time here -->
 
-```bash
-$ dbcli 8 (--amount = <number>)
-[
-    The_Jesus _and_Mary_Chain,
-    Vladimir_ Basov,
-    Blink-182,
-    "Terence _Trent _DArby",
-    Zhou_Shen,
-    Chris Cutler
-]
-Elapsed time : 0.4805s
+---
+
+#### Task 08
+
+Finding a root node (i.e., one which is not a subcategory of any other node):
+
+```
+$ dbcli 8
+List of 1 randomly selected root node(s):
+
+[ Pope_Urban_II ]
+
+Execution time: 0.7335 seconds
 ```
 
-10. Find nodes with the most children
-```bash
-$ dbcli 9 
+<!-- Insert mongoDB time here -->
+
+---
+
+#### Task 09
+
+Finding the node(s) with the most children (there could be more than one, if they are tied for the first place):
+
+```
+$ dbcli 9
+✔ Query completed.
+
+Nodes with the highest amount of children:
 
 [ Albums_by_artist ]
 
-Elapsed time : 3.3786s
+Execution time: 3.1954 seconds
 ```
 
-11. Find nodes with the least children (number of children is greater than zero)
+<!-- Insert mongoDB time here -->
 
-```bash
+---
+
+#### Task 10
+
+Finding the node(s) with the least amount of children, excluding entirely childless nodes:
+
+<!-- Include --limit=number in the command to limit the amount of nodes get to fit the terminal window. -->
+
+```
 $ dbcli 10
 
-[ 
+[
     Suhut District,
     Sar Mountains,
     Savnik_Municipality,
@@ -303,69 +402,103 @@ $ dbcli 10
 Elapsed time : 4.3682s
 ```
 
-12. Renames a given node 
+<!-- Insert mongoDB time here -->
 
-```bash
-$ dbcli 11 Alexander-Lukashenko Kim_Heesung
+---
 
-Successfuly renamed the node Alexander_ Lukashenko to Kim_Heesung
-Elapsed time : 0.0698s
+#### Task 11
+
+Renaming a given node:
+
+```
+$ dbcli 11 Leonardo_da_Vinci Kim_Heesung
+✔ Successfuly renamed the node Leonardo_da_Vinci to Kim_Heesung
+
+Execution time: 0.0701 seconds
 ```
 
-13. Find all paths between two given nodes, with directed edge from the first to the second node
+<!-- Insert mongoDB time here -->
 
-```bash
-$ dbcli 12 "Government_of _Belarus" "Lukashenko_family"
+---
 
-[
-    ** Please add your terminal results**
+#### Task 12
 
-]
+Finding all paths between two given nodes, with directed edge from the first to the second node:
+
+```
+$ dbcli 12 15th-century_Italian_painters Paintings_by_Leonardo_da_Vinci
+✔ Query completed.
+
+All paths between nodes "15th-century_Italian_painters" and "Paintings_by_Leonardo_da_Vinci" (up to 15 levels deep):
+
+15th-century_Italian_painters
+ →  Kim_Heesung
+ →  Works_by_Leonardo_da_Vinci
+ →  Paintings_by_Leonardo_da_Vinci (depth: 3)
+
+15th-century_Italian_painters
+ →  Italian_Renaissance_painters
+ →  Kim_Heesung
+ →  Works_by_Leonardo_da_Vinci
+ →  Paintings_by_Leonardo_da_Vinci (depth: 4)
+
+Execution time: 1.3789 seconds
 ```
 
-## A step-by-step manual how to reproduce the results.
+<!-- Insert mongoDB time here -->
 
-- First, successfully connect your database with docker again. (Please refer to user manual how to connect datbase)
+---
 
-- Second, positioned to *dbcli* directory, run the command with questions nubmer and node. 
+## How to reproduce the results
 
-```bash
-$ dbcli <Question Number> <Given node>
+1. Make sure you have the [pre-requisites](#prerequisites) installed on your local machine.
+
+2. Follow the [installation and setup instructions](#installation-and-setup-instructions).
+
+3. Make sure to be running [Docker Desktop](https://www.docker.com/products/docker-desktop/) on the background.
+
+4. Navitage to the `dbcli` directory.
+
+5. Ensure database connection.
+<!-- Create section dedicated to this -->
+
+6. Run the command `dbcli` followed by the task number. Command-specific syntax can be found by running the command with the `--help` flag:
+
 ```
-
+$ dbcli <task_number> --help
+```
 
 ## Self-evaluation: efficiency should be discussed.
 
-- As applied docker containter, it can improve to run database system efficiently. 
-- As customized command line programmed, it helps user to run command easily with question number and node to find answer. 
-- By applying the optimzing loading CSV, it improves the efficience of importing files. It also compares to import using Mongoimport, which take more times(about 2 minutes more). 
+- As applied docker containter, it can improve to run database system efficiently.
+- As customized command line programmed, it helps user to run command easily with question number and node to find answer.
+- By applying the optimzing loading CSV, it improves the efficience of importing files. It also compares to import using Mongoimport, which take more times(about 2 minutes more).
 - Neo4j,graphical database, has more powerful to find complex relationships between nodes. It can be said that cypher languager can be direct intuitive way to implement it compares to document style of Mongodb.
 
-
-
 ## Strategies for future mitigation of identified shortcomings.
-- Please indentify some shortcomings of this program. then explain how to mitigate. 
 
+- Please indentify some shortcomings of this program. then explain how to mitigate.
 
 ## Project members
-**which contributions for what should be reported here !
 
-Barros Borges Emanuel  
+\*\*which contributions for what should be reported here !
+
+Barros Borges Emanuel
+
 - <Add your contributions>
 
 Heesung Kim
+
 - Lead project and outline of database architecture
 - Scheduling meeting to reach milestone
-- Documentataion 
+- Documentataion
 - Present of projects outcomes
 - Consultation of test results
 - Compares to Mongodb for the performance wise
 
-
 ## Description
-<!-- This project is aim to design of database and implement of the utility with CLI. 
-From this project, you can refer to the results which was given by the lecturer. 
-As consulted, the technology stack will be MongoDB for the database design operated by 
+
+<!-- This project is aim to design of database and implement of the utility with CLI.
+From this project, you can refer to the results which was given by the lecturer.
+As consulted, the technology stack will be MongoDB for the database design operated by
 Java driver on your local machine.  -->
-
-
