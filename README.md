@@ -12,184 +12,230 @@ This project's aim is the following:
 
 ## Choice of technology
 
-1. **JavaScript**: The programming language used for developing the CLI application. It is utilized within the Node.js environment to write the logic, functionality, and behavior of the CLI.
+#### [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-2. **Node.js**: The [runtime environment](https://stackoverflow.com/questions/3900549/what-is-runtime) that allows [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) code to be executed outside of a web browser. It is recommended to be at version 18 or later.
+The programming language used for developing the CLI application. It is utilized within the Node.js environment to write the logic, functionality, and behavior of the CLI.
 
-3. **npm**: [Package manager for Node.js](https://www.npmjs.com/) which is used for installing, sharing, and managing dependencies for Node.js projects. This project requires a minimum version of 6.0.0. However, it is strongly recommended to use the latest available version.
+#### [**Node.js**](https://nodejs.org/en)
 
-4. **Docker**: A platform for [containerizing](https://aws.amazon.com/what-is/containerization/) applications. We used [Docker](https://www.docker.com/) to instantiate the database, ensuring our application's portability and consistency across different environments.
+The [runtime environment](https://stackoverflow.com/questions/3900549/what-is-runtime) that allows JavaScript code to be executed outside of a web browser. In this project, it is used to run the code in the user's local machine.
 
-5. **Neo4j**: The chosen database management system for storing and managing the relevant data. Given that our data consists entirely of nodes connected by a single directed ridge, we decided that [Neo4j](https://neo4j.com/) – being a [graph database](https://neo4j.com/docs/getting-started/get-started-with-neo4j/graph-database/) system – would more efficiently suit our neeeds.
+#### [**npm**](https://www.npmjs.com/)
 
-## Architecture: components and interactions, optional diagram
+A package manager for Node.js used for installing, sharing, and managing dependencies for Node.js projects. It gathers all the project's dependencies, including their own dependencies, into a cohesive and executable application, ensuring everything works seamlessly together.
 
-<Must revie this section!!>
-How this program works?
-Applications runs on docker containers
-Database of neo4j will run by <driver>?
-Presentation will be command line argument API
-Which libraries ? Why this libraries?
+#### [**Docker**](https://www.docker.com/)
+
+A platform for [containerizing](https://aws.amazon.com/what-is/containerization/) applications. We used Docker to instantiate the database, eliminating the need for users to set it up themselves or worry about port configurations. Furthermore, although our application currently runs exclusively on Unix-like operating systems, thanks to Docker our codebase is made robust enough to need nothing but trivial modifications to achieve broad compatibility across different operational systems.
+
+#### [**Neo4j**](https://neo4j.com/)
+
+The chosen database management system for storing and managing data. Given that the relevant data can be adequately conceptualized as consisting entirely of point-like nodes, and that each pair of nodes is connected by not more than one directed ridge, we decided that Neo4j – being a [graph database](https://neo4j.com/docs/getting-started/get-started-with-neo4j/graph-database/) system – would most efficiently suit our needs.
+
+#### [**Yargs**](https://yargs.js.org/)
+
+A library for building interactive command line tools in JavaScript. It is used in this project to parse arguments and manage the command structure for the CLI, providing a standardized way to handle user input and execute commands.
+
+## Software Architecture
+
+This application works by instantiating a Neo4j database within a Docker [container](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/), which will be responsible for exposing the ports necessary to connect to our database. Once such a port has been exposed by the docker container, we can connect to it by means of the [Neo4j Driver for JavaScript](https://www.npmjs.com/package/neo4j-driver) to run queries and perform operations in our Neo4j database.
+
+All interactions with the database, including setup, are managed through a Command Line Interface (CLI) built in JavaScript using yargs. When the CLI is invoked, yargs works in the background to parse the received arguments and execute their corresponding commands, handling errors and providing instructions to the user whenever necessary.
+
+It is important to note that for each command issued, the Neo4j Driver attempts to establish a connection to the database, execute the relevant queries, and then close the connection. For this reason, **as long as there is an online database configured to work with the CLI** (through means of the `dbcli` command), **the application will do its job**, regardless of how this database was brought online. The importance of such a remark will come to light in the [user manual](#user-manual) section of these docs.
 
 ## Prerequisites
 
-1. Install node.js
+1. [Node.js](https://nodejs.org/en/download)
 
-   - [Guide to installation](https://nodejs.org/en/download/package-manager)
+   - Minimum required version: 18
+   - Recommended version: Latest stable release
+   - Version used during development: 20.9.0
 
-2. Place CSV to your working directory
+2. [Docker Engine](https://docs.docker.com/engine/install/)
 
-3. Download this repository into your local machine.
+   - Minimum required version: 19.03
+   - Recommended version: Latest stable release
+   - Version used during development: 26.1.4
+
+3. [Docker Desktop](https://docs.docker.com/desktop/install/linux-install/)
+   - Minimum required version: 2.1.0.0
+   - Recommended version: Latest stable release
+   - Version used during development: 4.30.0
 
 ## Installation and setup instructions
 
-1. **Docker Desktop**  
-   Please follow the instructions at the [The Official Docker Documentation](https://docs.docker.com/get-docker/) website to download Docker in your local machine.
+1. Install prerequisites.
 
-- After installed docker on your laptop, check it is correctly installed with command below
+2. Download this repository into your local machine.
 
-```bash
-$ docker images
-```
+3. Navigate to the repository's `dbcli` directory.
 
-- To use neo4j image in the container, download neo4j image from here [](https://hub.docker.com/_/neo4j) .
+4. Install the necessary dependencies:
 
-```bash
-$ docker pull neo4j
-```
+   ```
+   npm install
+   ```
 
-You can also check whether neo4j image correctly installed by the `docker image` command.
+5. Once you find yourself in the `dbcli` directory, you can execute the application with [npx](https://stackoverflow.com/questions/50605219/difference-between-npx-and-npm):
 
-- To create container to importing neo4j image,
+   ```
+   npx dbcli
+   ```
 
-```bash
-$ docker run neo4j
-$ docker ps
-```
+6. **(Optional)** Additionally, this CLI can be made globally available in your local machine, and thus interacted with regardless of where in the operating system's folder structure you issue its commands.
+   For that, you must create a symbolic link from npm's [global Node modules](https://stackoverflow.com/questions/5926672/where-does-npm-install-packages) to the current package's local modules' directory. Still in the `dbcli` directory, you must execute the following command:
 
-- If you want to stop,
+   ```
+   npm link
+   ```
 
-```bash
-$ docker stop neo4j
-```
+   And from there onwards, npx can be dispensed with entirely:
 
-2. **Command Line Interface**
+   ```
+    dbcli
+   ```
 
-   - Navigate to the repository's _dbcli_ directory.
+   This should take care of making the package globally available while dispensing with the need to actually globally install it. This makes cleanup job much easier once we are done with using the application, as it is enough to simply navigate back to the `dbcli` directory and run:
 
-   - Once in the _dbcli_ directory, choose the installation option that suits you the most:
-
-     a. For those comfortable with enabling **root access**: `sudo npm install -g .` installs the CLI application **globally**. This means that you can use it **anywhere in your machine** by simply running `dbcli <args>`.
-     b. For those who would rather not, `npm install .` installs the CLI application and makes it available for usage **in the _dbcli_ folder exclusively**. Additionally, [npx](https://docs.npmjs.com/cli/v8/commands/npx) will be needed to run the application: `npx dbcli <args>`
-
-     > !!! in the dbcli folder, `$ dbcli connect` is not working after `npm install .`. Need to correct it !!!
-
-obs: running `bin/index.js <command> <args>` also works
+   ```
+   sudo npm rm --global dbcli
+   ```
 
 ## User manual
 
-#### Ensure connection to the database
+### Ensure connection to the database
 
-```bash
+Before any commands can be run, an active instance of a Neo4j database needs to be running in the background. Since it can easily be overwhelming to deal with database authentication, ports mapping and their connectivity, we have built a command that takes care of instantiating the database with the proper authentication settings in a Docker container and expose its ports for subsequent connectivity.
+
+In order to connect to the database, first **make sure to be running Docker Desktop in the background.** Then, run:
+
+```
 $ dbcli connect
 ```
 
-#### Loading the CSV file into your database
+This should take care of establishing a working connection to the database for as long as the terminal window wherein it was run is kept operational.
 
-To load the CSV file into the database, first the **file must be located at the _import_ directory** of the _dbcli_ folder:
+In short, this command tells Docker to create a container with a properly configured Neo4j database and bring it online, allowing the CLI to connect to it via the Neo4j Javascript Driver. You can keep tabs on the current state of your containers through the Docker Desktop application. This is how a newly-established database connection looks like in Docker Desktop:
+
+![A screenshot of the Docker Desktop application showing a single currently online container and its statistics](docker_screenshot.png)
+
+Further invocations of this same command will create, each time, a new container, regardless of whether they have been successful or not. Therefore, **be sure to note the names given to any containers you would like to keep track of**, as they can easily get lost amidst a containers' sea if not properly managed.
+
+As soon as the terminal window on which the `connect` command was run is closed, so is our connection to the database. To bring it back online, you can either:
+
+1. **Manually restart the container through the Docker Desktop application**, by pressing on the play button under the "Actions" column.
+
+2. **Connect to a new database through the CLI application**, by running the `connect` command once again.
+
+### Loading the CSV file into your database
+
+To load the CSV file into the database, **make sure that the file is placed in the _import_ directory within the _dbcli_ folder**. This requirement arises due to both [Neo4j's](https://neo4j.com/docs/getting-started/data-import/csv-import/) and [Docker's](https://docs.docker.com/desktop/settings/mac/#file-sharing) settings. In short, both systems restrict their file access to specific directories to optimize resource usage. Violating this constraint can lead to significant performance issues.
+
+After placing the file in the correct directory and ensuring there is an active database connection, execute the following command:
 
 ```
-$ ls dbcli/import
-taxonomy_iw.csv
+$ dbcli load <file_name>
 ```
 
-This is due to (Neo4j's)[https://neo4j.com/docs/getting-started/data-import/csv-import/] and Docker's configuration. In short: to import files
+Please note that, since imports can only be carried out in this specific folder, regardless of where the command is being run, `<file_name>` stands for the name of the file (or their path) **inside the import directory**. Furthermore, given the project's aims, **CSV files should have exactly two columns per row,** and any other amount may result in unexpected processing errors.
 
-- It referes to [Optimizing LOAD CSV for performance](https://neo4j.com/docs/getting-started/data-import/csv-import/#optimizing-load-csv) to secure performance wise to load csv file.
+### Interacting with the database
 
-```bash
-$ dbcli load taxonomy_iw.csv
+The interaction with the database is achieved by means of the command line interface invoked by the `dbcli` call, and its usage is governed by the following syntax:
+
+```
+$ dbcli <command> <args...>
 ```
 
-#### Interacting with the database
+The list of all available commands and their aliases can be retrieved by running the `--help` command:
 
-```bash
-$ dbcli <Question Number> <Given node>
-ex. $ dbcli 1 1880s_films
+```
+$ dbcli --help
 ```
 
-## Database design
+Additionally, the CLI comes fully equipped with `--help` options for every command:
 
-The design of the database is very simple, and further insight can be gained on it by reading the Cypher Queries used to load the data from the CSV file into the database. These queries can be found in the _queries_ directory, specifically queries `loadCategoriesQuery` and `loadRelationshipsQuery` from the file _uploadQueries.js_.
+```
+$ dbcli 12 --help
+dbcli 12 <node_1> <node_2>
 
-In summary, as previously stated, it consists entirely of **nodes connected by a single directed ridge.** Each node represents an article in Wikipedia, and all the nodes to which it connects represent a subarticle, so to speak, that is: an article to which it connects.
+Finds all paths between two given nodes, with directed edges from the first to
+the second node.
+
+Positionals:
+  <node_name>  Specifies the current name of the node you intend to rename.
+                                                                        [string]
+  <new_name>   Specifies the new name you wish to assign to the node.   [string]
+
+Options:
+  --help   Show help                                                   [boolean]
+```
+
+For some commands, additional options are available:
+
+```
+$ dbcli 8 --help
+dbcli 8
+
+Finds a root node (i.e., one which is not a subcategory of any other node).
+
+Options:
+  --help    Show help                                                  [boolean]
+  --amount  Specifies the amount of root nodes you would like to return.
+                                                                    [default: 1]
+```
+
+To make use of them, the following syntax is necessary:
+
+```
+$ dbcli <command> --<option>=<value>
+```
+
+For the above example:
+
+```
+$ dbcli 8 --amount=2
+List of 2 randomly selected root node(s):
+
+[ Ray_Charles, Lavrio_B.C. ]
+
+Execution time: 0.8191 seconds
+```
+
+## Database design and its implementation
+
+### The design
+
+The design of the database is very simple, and further insight can be gained on it by reading the Cypher Queries used to load the data from the CSV file into the database. These queries can be found in the _queries_ directory, specifically queries `loadCategoriesQuery` and `loadRelationshipsQuery` from the file _uploadQueries.js_. For conciseness' sake, they will not be reproduced in full here.
+
+In summary, as previously stated, it consists entirely of **nodes connected by a single directed ridge.** Each node represents an article in Wikipedia, and all the nodes to which it connects represent a "subarticle", so to speak, that is: an article to which it links.
 
 This effectively mimicks Wikipedia's articles' taxonomy at a given point in time, with broader and more general articles encompassing and nesting narrower and more specialized articles, as can be seen [in the examples below](#results).
 
-## Implementation process
+### The implementation
 
-<!-- ASK TEACHER: Is it about the implementation of the database or the CLI? -->
+To implement such data structure, the target CSV file is loaded into the database in three steps:
 
-1. Implementation to loading CSV file.
+1.  First, a uniqueness constraint is set up on the nodes' name property, to ensure that no two nodes can carry the same name.
 
-- Sets up a UNIQUENESS constraint on the "name" property of each "Category" node
+2.  Then, all nodes are loaded into the database via [Cypher's](https://neo4j.com/docs/cypher-manual/current/introduction/) `LOAD CSV` command.
 
-```javascript
-const constraintsQuery = `
-CREATE CONSTRAINT IF NOT EXISTS FOR (c:Category)
-REQUIRE c.name IS UNIQUE;
-`;
+3.  Finally, all of their relationships are loaded also through means of the `LOAD CSV` command.
+
+Such a strategy was taken from the [Neo4j Docs' recommendations for optimizing CSV data imports](https://neo4j.com/docs/getting-started/data-import/csv-import/#optimizing-load-csv) and coupled with transactions' batching to ensure the proper loading of such large amount of data.
+
+### The final result
+
+After loading all CSV data into the database, we are left with a database whose nodes (and their relationships) can be represented as follows:
+
+```
+(parent_node:Category {name: "Article"})-[:HAS_SUBCATEGORY]->(child_node:Category {name: "Subarticle"})
 ```
 
-- Generates nodes
+Which can be read as follows: _"A parent node of the type Category whose name is Article has a child node of the type Category whose name is Subarticle."_
 
-```javascript
-const loadCategoriesQuery = `
-LOAD CSV FROM $filePath AS row
-WITH trim(row[0]) AS category, trim(row[1]) AS subcategory
-WHERE category IS NOT NULL AND subcategory IS NOT NULL
-CALL {
- WITH category, subcategory
- MERGE (c:Category {name: category})
- MERGE (s:Category {name: subcategory})
-} IN TRANSACTIONS OF 100000 ROWS;
-`;
-```
-
-- Add edges between category and subcategory columns
-
-```javascript
-const loadRelationshipsQuery = `
-LOAD CSV FROM $filePath AS row
-WITH trim(row[0]) AS category, trim(row[1]) AS subcategory
-WHERE category IS NOT NULL AND subcategory IS NOT NULL
-CALL {
-  WITH category, subcategory
-  MATCH (c:Category {name: category})
-  MATCH (s:Category {name: subcategory})
-  MERGE (c)-[:HAS_SUBCATEGORY]->(s)
-} IN TRANSACTIONS OF 100000 ROWS;
-`;
-```
-
-2. Implement cypher query to get the result of target question number
-
-- For example, if you find a children of given node,
-
-```javascript
-const findChildrenQuery = ` 
-MATCH (node:Category {name: $categoryName})-[:HAS_SUBCATEGORY]->(child:Category) 
-RETURN child 
-ORDER BY child.name ASC 
-`;
-```
-
-- Other details implementation can be found in here `queries\cypherQueries.js`.
-
-3. Implement command scripts to employing cypher query script.
-
-- To execute query with command, applies predefiend functions of `runQuery.js`.
-- To display results of performance wise, it applies `displayResult.js`.
+All queries to the database are done using [Cypher](https://neo4j.com/docs/getting-started/cypher-intro/), and can be found in `./dbcli/queries/cypherQueries.js`
 
 ## Results
 
@@ -224,8 +270,6 @@ All children of the node "Engineering_universities_and_colleges_in_Poland":
 Execution time: 0.0184 seconds
 ```
 
-<!-- Insert mongoDB time here -->
-
 ---
 
 #### Task 02
@@ -239,8 +283,6 @@ The amount of children of the node "Engineering_universities_and_colleges_in_Pol
 
 Execution time: 0.0495 seconds
 ```
-
-<!-- Insert mongoDB time here -->
 
 ---
 
@@ -256,8 +298,6 @@ All grandchildren of the node "Presidents_of_Belarus":
 
 Execution time: 0.0158 seconds
 ```
-
-<!-- Insert mongoDB time here -->
 
 ---
 
@@ -279,8 +319,6 @@ All parents of the node "Tourism_in_South_Korea":
 Execution time: 0.0161 seconds
 ```
 
-<!-- Insert mongoDB time here -->
-
 ---
 
 #### Task 05
@@ -294,8 +332,6 @@ The amount of parents of the node "Tourism_in_South_Korea" is:
 
 Execution time: 0.0353 seconds
 ```
-
-<!-- Insert mongoDB time here -->
 
 ---
 
@@ -323,8 +359,6 @@ All grandparents of the node "Tourism_in_South_Korea":
 Execution time: 0.0367 seconds
 ```
 
-<!-- Insert mongoDB time here -->
-
 ---
 
 #### Task 07
@@ -338,8 +372,6 @@ The amount of uniquely named nodes is:
 
 Execution time: 0.3419 seconds
 ```
-
-<!-- Insert mongoDB time here -->
 
 ---
 
@@ -355,8 +387,6 @@ List of 1 randomly selected root node(s):
 
 Execution time: 0.7335 seconds
 ```
-
-<!-- Insert mongoDB time here -->
 
 ---
 
@@ -375,17 +405,11 @@ Nodes with the highest amount of children:
 Execution time: 3.1954 seconds
 ```
 
-<!-- Insert mongoDB time here -->
-
 ---
 
 #### Task 10
 
 Finding the node(s) with the least amount of children, excluding entirely childless nodes:
-
-<!-- Ask teacher: should limit? -->
-
-<!-- Include --limit=number in the command to limit the amount of nodes get to fit the terminal window. -->
 
 ```
 $ dbcli 10
@@ -404,8 +428,6 @@ $ dbcli 10
 Elapsed time : 4.3682s
 ```
 
-<!-- Insert mongoDB time here -->
-
 ---
 
 #### Task 11
@@ -418,8 +440,6 @@ $ dbcli 11 Leonardo_da_Vinci Kim_Heesung
 
 Execution time: 0.0701 seconds
 ```
-
-<!-- Insert mongoDB time here -->
 
 ---
 
@@ -447,62 +467,86 @@ All paths between nodes "15th-century_Italian_painters" and "Paintings_by_Leonar
 Execution time: 1.3789 seconds
 ```
 
-<!-- Insert mongoDB time here -->
-
-<!-- Review task 12 -->
-
 ---
 
-## How to reproduce the results
+### System Environment Specifications
 
-1. Make sure you have the [pre-requisites](#prerequisites) installed on your local machine.
+The above execution times are the result of running the corresponding queries on the following system:
 
-2. Follow the [installation and setup instructions](#installation-and-setup-instructions).
+- CPU Information
 
-3. Make sure to be running [Docker Desktop](https://www.docker.com/products/docker-desktop/) on the background.
+  - Model: 13th Gen Intel(R) Core(TM) i9-13900HX
+  - Total Logical Processors: 32
+  - Cores: 24
+  - Threads per Core: 2
+  - Max Frequency: 5400 MHz
+  - Cache:
+    - L1d: 896 KiB (24 instances)
+    - L1i: 1.3 MiB (24 instances)
+    - L2: 32 MiB (12 instances)
+    - L3: 36 MiB (1 instance)
 
-4. Navitage to the `dbcli` directory.
+- Memory Information
 
-5. Ensure database connection.
-<!-- Create section dedicated to this -->
+  - Total Memory: 32 GB
 
-6. Run the command `dbcli` followed by the task number. Command-specific syntax can be found by running the command with the `--help` flag:
+- Disk Space
 
-```
-$ dbcli <task_number> --help
-```
+  - Main Filesystem: 450 GB total, 120 GB available
 
-## Self-evaluation: efficiency should be discussed.
+## Project evaluation
 
-- As applied docker containter, it can improve to run database system efficiently.
-- As customized command line programmed, it helps user to run command easily with question number and node to find answer.
-- By applying the optimzing loading CSV, it improves the efficience of importing files. It also compares to import using Mongoimport, which take more times(about 2 minutes more).
-- Neo4j,graphical database, has more powerful to find complex relationships between nodes. It can be said that cypher languager can be direct intuitive way to implement it compares to document style of Mongodb.
+This project was developed alongisde a competing alternative in MongoDB. Our goal was to implement the very same project in at least two different widely used database technologies to compare their performances and opt for the more efficient alternative. Hence, the evaluation here presented takes into account not only our expectations as to how our database should perform, but also how other implementations of different database management systems have proven to perform.
+
+- ### Data Loading Efficiency
+
+  By employing the [aforementioned strategies](#the-implementation) for efficient data loading, for the [system specified above](#system-environment-specifications), the loading of approximately 2 million nodes and 5.8 million relationships was accomplished in under 5 minutes. **We consider this to be quite fast**, and beats our MongoDB implementation by about 2 minutes, even though MongoDB is usually considered to be faster. Although we were certain that the traversal of nodes would prove significantly faster in Neo4j, we were positively surprised to see that the importing process was also more efficient. **We attribute this to the simplicity of each node's data** (their name and category type only), for given that different DBMSes have different conditions under which they perform the best, it seems like a natural conclusion that they would also have an easier time parsing and processing data in the format they can manage best. Therefore, since MongoDB excels in processing richly structured document-like data while Neo4j's forte is in the traversal of highly interconnected (but comparatively simpler) data, **we find that the positively surprising data loading efficiency might be a fortunate consequence of the right DBMS choice for the project.**
+
+- ### Data Processing Efficiency
+
+  Given that most queries run in less than a second, we also find our data processing efficiency to be satisfying. In heavier queries, such as in task 10, where a total of 329,020 nodes have been returned, we consider that doing so in less than 5 seconds is sufficient. For task 12, however, considerably more time is taken. **We are not currently satisfied with the amount of time the execution of task 12 takes for wider search spaces.** However, a workaround has been implemented, and it consists of manually delimiting the search space and making use of [Neo4j's APOC library](https://neo4j.com/labs/apoc/).
+
+- ### Accessibility
+
+  **Using docker containers to handle the database setup has proven to be a good decision**, specially since Neo4j databases need to be properly configured from the get-go to handle most APOC features. Docker provided the fastest, easies and most reliable way to get the database up and running from the moment the repository had been properly cloned.
+
+  **Yargs** as the primary building block of our command line interface application was the best decision we could have taken in order to standardize and reliably parse and respond to user input. In comparison to our previous attempt at creating a CLI in Java for our discontinued MongoDB database, the current CLI application is something we fell we can be proud of.
 
 ## Strategies for future mitigation of identified shortcomings.
 
-- Please indentify some shortcomings of this program. then explain how to mitigate.
+The primary identified shortcomings of this project are in our current implementations for:
+
+- **Finding all paths between two nodes.**
+
+  Whenever the space between two nodes becomes too large, our current implementation of task 12 is virtually unable to query through it. As previosuly mentioned, a workaround has been provided to mitigate such shortcoming. However, since it consists of artificially delimiting the search space, we cannot be sure that all paths have indeed been returned, and as such it does not qualify as a fully-fledged successful implementation.
+
+- **Command line interface**
+
+  The code is far from optimally structured, modularized and documented. Many solutions look and feel improvised and some returns lack type consistency. A solution for that would be, now that the application is already "finished", refactoring the entire codebase and implement it in TypeScript.
+
+  Not all commands and possibilities are adequately handled. As of today, the identified main quality-of-life features that could be implemented are:
+
+  - Checking for a node's existence before attempting to run a query.
+
+  - A `--limit` option for all commands that return lists.
+
+  - Allow for the importation of files anywhere in the system.
 
 ## Project members
 
-\*\*which contributions for what should be reported here !
+#### Emanuel Barros Borges
 
-Barros Borges Emanuel
+- Developing the CLI application.
+- Designing and implementing Neo4j database.
+- Implementing Cypher queries (tasks 1 to 12).
+- Writing the final documentation.
 
-- <Add your contributions>
+#### Heesung Kim
 
-Heesung Kim
-
-- Lead project and outline of database architecture
-- Scheduling meeting to reach milestone
-- Documentataion
-- Present of projects outcomes
-- Consultation of test results
-- Compares to Mongodb for the performance wise
-
-## Description
-
-<!-- This project is aim to design of database and implement of the utility with CLI.
-From this project, you can refer to the results which was given by the lecturer.
-As consulted, the technology stack will be MongoDB for the database design operated by
-Java driver on your local machine.  -->
+- Scheduling team meetings.
+- Communicating and regularly consulting with the professor.
+- Keeping track of milestones achievements and ensuring the project's adherence to deadlines.
+- Regular presenting projects outcomes.
+- Designing and implementing competing MongoDB database (useful for comparison: discontinued due to Neo4j's superior performance).
+- Outlining the documentation's first first draft.
+- Implementing Cypher queries (task 12).
