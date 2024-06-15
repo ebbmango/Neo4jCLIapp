@@ -20,7 +20,6 @@ const command = {
 
     const node01 = argv["node_1"];
     const node02 = argv["node_2"];
-    const depth = argv["depth"];
 
     // Running the query
     const { queryResult, executionTime } = await runQueryWithSpinner({
@@ -28,10 +27,9 @@ const command = {
       queryParameters: {
         nodeFrom: node01,
         nodeTo: node02,
-        maxDistance: neo4j.int(depth),
       },
       loadingText: await chalkText(
-        `Finding all paths between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw> (max depth: <ylw>${depth}</ylw>)`
+        `Finding all paths between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw>`
       ),
       successText: "Query completed.",
     });
@@ -102,12 +100,6 @@ const command = {
       .positional("<new_name>", {
         describe: "Specifies the new name you wish to assign to the node.",
         type: "string",
-      })
-      .option("depth", {
-        describe:
-          "Specifies the maximum depth of the search tree. Greater depths may lead to longer execution times.",
-        type: "integer",
-        default: 15,
       })
       .strict(); // Enables strict mode: throws an error for too many arguments.
   },
