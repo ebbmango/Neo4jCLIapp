@@ -36,7 +36,7 @@ async function loadDataFromCSV(filePath) {
     });
   } catch (error) {
     // Handles errors
-    console.error("Error processing CSV file:", error);
+    throw new Error(error);
   }
 }
 

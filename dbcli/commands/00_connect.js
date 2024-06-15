@@ -53,8 +53,6 @@ const command = {
             "Keep this terminal open to prevent disconnection from the database. Open a separate instance for running commands."
           );
         }
-      } else {
-        // console.log(output.trim());
       }
     });
 

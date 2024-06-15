@@ -8,6 +8,7 @@ async function runQueryWithSpinner({
   queryParameters,
   loadingText,
   successText,
+  errorText,
 }) {
   const { default: ora } = await import("ora"); // Imports necessary dependencies
 
@@ -18,20 +19,24 @@ async function runQueryWithSpinner({
   const spinner = ora(loadingText).start(); // Initializes the spinner
   updateSpinner(spinner); // Updates the spinner
 
-  const startTime = performance.now();
-  
-  const result = await session.run(query, queryParameters); // Runs the query
-  
-  const endTime = performance.now();
+  let result;
 
-  spinner.clear(); // Clears the spinner
-  spinner.succeed(successText); // Displays the success text
-
-  // Terminates the queries' runner.
-  await session.close();
-  await driver.close();
-
-  return { queryResult: result, executionTime: endTime - startTime };
+  try {
+    const startTime = performance.now();
+    await session.run(query, queryParameters); // Runs the query
+    spinner.clear(); // Clears the spinner
+    spinner.succeed(successText); // Displays the success text
+    const endTime = performance.now();
+    return { queryResult: result, executionTime: endTime - startTime };
+  } catch (error) {
+    spinner.clear(); // Clears the spinner
+    spinner.fail(errorText); // Displays the success text
+    throw error;
+  } finally {
+    // Terminates the queries' runner.
+    await session.close();
+    await driver.close();
+  }
 }
 
 module.exports = runQueryWithSpinner;
