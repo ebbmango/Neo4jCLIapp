@@ -20,6 +20,7 @@
     "chalk": "^5.3.0",
     "csv": "^6.3.8",
     "is-reachable": "^5.2.1",
+    "mime-types": "^2.1.35",
     "neo4j-driver": "^5.20.0",
     "ora": "^8.0.1",
     "yargs": "^17.7.2"

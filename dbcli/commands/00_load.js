@@ -1,6 +1,7 @@
 // external dependencies
 const fs = require("fs");
 const path = require("path");
+const mime = require("mime-types");
 
 // functions
 const runQuery = require("../functions/runQuery");
@@ -27,59 +28,67 @@ const command = {
     const fullPath = path.join(importDirectory, filePath.toString());
 
     if (!fs.existsSync(fullPath)) {
-      displayError(
+      await displayError(
         new Error(`File ${filePath} does not exist in the import directory.`)
       );
-    } else {
-      const startTime = performance.now();
+      process.exit();
+    }
 
-      // Sets up constraints.
-      await runQuery(constraintsQuery, {});
+    if (mime.lookup(filePath) !== "text/csv") {
+      await displayError(new Error(`File ${filePath} is not of CSV type.`));
+      process.exit();
+    }
 
-      try {
-        // Loads all categories from the CSV file into the database.
-        await runQueryWithSpinner({
-          query: loadCategoriesQuery,
-          queryParameters: { filePath: `file:///${filePath}` },
-          loadingText: "Loading Nodes",
-          successText: "Nodes loaded successfully.",
-          errorText: "Loading categories failed.",
-        });
+    console.log(await chalkText("<ylw>⚠</ylw> CSV files with more than two columns per row may result in unexpected processing errors."))
 
-        // Creates relationships between categories and subcategories according to the CSV file.
-        await runQueryWithSpinner({
-          query: loadRelationshipsQuery,
-          queryParameters: { filePath: `file:///${filePath}` },
-          loadingText: "Loading Relationships",
-          successText: "Relationships loaded successfully.",
-          errorText: "Loading relationships failed.",
-        });
+    const startTime = performance.now();
 
-        const endTime = performance.now();
+    // Sets up constraints.
+    await runQuery(constraintsQuery, {});
 
-        // Informs the user of the task's completion.
-        console.log(
-          await chalkText(
-            "<bold><grn>✔ Database has been successfully filled with data from the CSV file.</grn></bold>"
-          )
-        );
+    try {
+      // Loads all categories from the CSV file into the database.
+      await runQueryWithSpinner({
+        query: loadCategoriesQuery,
+        queryParameters: { filePath: `file:///${filePath}` },
+        loadingText: "Loading Nodes",
+        successText: "Nodes loaded successfully.",
+        errorText: "Loading categories failed.",
+      });
 
-        console.log(
-          await chalkText(
-            `\nElapsed time: <ylw>${msToString(endTime - startTime)}</ylw>`
-          )
-        );
-      } catch (error) {
-        console.log(
-          await chalkText(
-            "<bold><red>✖ Could not load data from the file.</red></bold>"
-          )
-        );
-        console.error(error);
-      } finally {
-        // Manually exits the process (as it sometimes hangs, needlessly occupying the terminal).
-        process.exit();
-      }
+      // Creates relationships between categories and subcategories according to the CSV file.
+      await runQueryWithSpinner({
+        query: loadRelationshipsQuery,
+        queryParameters: { filePath: `file:///${filePath}` },
+        loadingText: "Loading Relationships",
+        successText: "Relationships loaded successfully.",
+        errorText: "Loading relationships failed.",
+      });
+
+      const endTime = performance.now();
+
+      // Informs the user of the task's completion.
+      console.log(
+        await chalkText(
+          "<bold><grn>✔ Database has been successfully filled with data from the CSV file.</grn></bold>"
+        )
+      );
+
+      console.log(
+        await chalkText(
+          `\nElapsed time: <ylw>${msToString(endTime - startTime)}</ylw>`
+        )
+      );
+    } catch (error) {
+      console.log(
+        await chalkText(
+          "<bold><red>✖ Could not load data from the file.</red></bold>"
+        )
+      );
+      console.error(error);
+    } finally {
+      // Manually exits the process (as it sometimes hangs, needlessly occupying the terminal).
+      process.exit();
     }
   },
 };
