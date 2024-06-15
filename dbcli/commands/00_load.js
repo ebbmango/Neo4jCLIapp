@@ -1,18 +1,19 @@
-// functions
-const { validateFilePath } = require("../functions/validateFilePath");
-const { loadDataFromCSV } = require("../functions/loadDataFromCSV");
-const msToString = require("../functions/msToString");
-const chalkText = require("../functions/chalkText");
-const runQueryWithSpinner = require("../functions/runQueryWithSpinner");
-const runQuery = require("../functions/runQuery");
+// external dependencies
 const fs = require("fs");
+const path = require("path");
+
+// functions
+const runQuery = require("../functions/runQuery");
+const chalkText = require("../functions/chalkText");
+const msToString = require("../functions/msToString");
+const displayError = require("../yargs/displayError");
+const runQueryWithSpinner = require("../functions/runQueryWithSpinner");
+
 const {
   constraintsQuery,
   loadCategoriesQuery,
   loadRelationshipsQuery,
 } = require("../queries/uploadQueries");
-const displayError = require("../yargs/displayError");
-const path = require("path");
 
 // command
 const command = {
