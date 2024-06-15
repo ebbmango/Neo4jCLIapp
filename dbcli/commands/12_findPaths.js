@@ -7,7 +7,10 @@ const chalkText = require("../functions/chalkText");
 const displayResult = require("../functions/displayResult");
 
 // Query
-const { findPathsQuery: query } = require("../queries/cypherQueries");
+const {
+  findPathsQuery,
+  boundedFindPathsQuery,
+} = require("../queries/cypherQueries");
 
 const command = {
   command: "12 <node_1> <node_2>",
@@ -20,14 +23,17 @@ const command = {
 
     const node01 = argv["node_1"];
     const node02 = argv["node_2"];
+    const depth = argv["depth"];
+
+    const params = {
+      nodeFrom: node01,
+      nodeTo: node02,
+    };
 
     // Running the query
     const { queryResult, executionTime } = await runQueryWithSpinner({
-      query,
-      queryParameters: {
-        nodeFrom: node01,
-        nodeTo: node02,
-      },
+      query: depth === -1 ? findPathsQuery : boundedFindPathsQuery,
+      queryParameters: depth === -1 ? params : { ...params, maxLevel: depth },
       loadingText: await chalkText(
         `Finding all paths between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw>`
       ),
@@ -100,6 +106,12 @@ const command = {
       .positional("<new_name>", {
         describe: "Specifies the new name you wish to assign to the node.",
         type: "string",
+      })
+      .option("depth", {
+        describe:
+          "Specifies the maximum depth of the search tree. Greater depths may lead to longer execution times.",
+        type: "integer",
+        default: -1,
       })
       .strict(); // Enables strict mode: throws an error for too many arguments.
   },

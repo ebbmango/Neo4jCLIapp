@@ -82,10 +82,23 @@ RETURN node
 `;
 
 // 12 - This query FINDS ALL PATHS starting at the node {name: $nodeFrom} and leading (always "downwards") to the node {name: $nodeTo}.
-// However, since the database is HUGE, the $maxDistance parameter stops the search when the path spans a user-determined amount of levels.
 const findPathsQuery = `
-MATCH path=(nodeFrom:Category {name : $nodeFrom})-[*]->(nodeTo:Category {name : $nodeTo})
+MATCH path=(nodeFrom:Category {name: $nodeFrom})-[*]->(nodeTo:Category {name: $nodeTo})
 RETURN path
+`;
+
+const boundedFindPathsQuery = `
+   MATCH (startNode {name: $nodeFrom})
+    WITH startNode
+    MATCH (endNode {name: $nodeTo})
+    CALL apoc.path.expandConfig(startNode, {
+      relationshipFilter: 'HAS_SUBCATEGORY>',
+      endNodes: [endNode],
+      bfs: false,
+      uniqueness: 'NODE_PATH',
+      maxLevel: $maxLevel
+    }) YIELD path
+    RETURN path
 `;
 
 module.exports = {
@@ -101,4 +114,5 @@ module.exports = {
   findInfertileNodesQuery,
   renameQuery,
   findPathsQuery,
+  boundedFindPathsQuery,
 };
