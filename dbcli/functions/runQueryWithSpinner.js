@@ -23,7 +23,7 @@ async function runQueryWithSpinner({
 
   try {
     const startTime = performance.now();
-    await session.run(query, queryParameters); // Runs the query
+    result = await session.run(query, queryParameters); // Runs the query
     spinner.clear(); // Clears the spinner
     spinner.succeed(successText); // Displays the success text
     const endTime = performance.now();
