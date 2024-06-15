@@ -383,6 +383,8 @@ Execution time: 3.1954 seconds
 
 Finding the node(s) with the least amount of children, excluding entirely childless nodes:
 
+<!-- Ask teacher: should limit? -->
+
 <!-- Include --limit=number in the command to limit the amount of nodes get to fit the terminal window. -->
 
 ```
@@ -446,6 +448,8 @@ Execution time: 1.3789 seconds
 ```
 
 <!-- Insert mongoDB time here -->
+
+<!-- Review task 12 -->
 
 ---
 

@@ -62,7 +62,6 @@ RETURN node
 ORDER BY node.name ASC;
 `;
 
-
 // 10 - This query finds out what is THE HIGHEST AMOUNT OF CHILDREN that a node has.
 const findInfertileNodesQuery = `
 MATCH (node:Category)-[:HAS_SUBCATEGORY]->(child:Category)
@@ -85,14 +84,7 @@ RETURN node
 // 12 - This query FINDS ALL PATHS starting at the node {name: $nodeFrom} and leading (always "downwards") to the node {name: $nodeTo}.
 // However, since the database is HUGE, the $maxDistance parameter stops the search when the path spans a user-determined amount of levels.
 const findPathsQuery = `
-MATCH (startNode {name: $nodeFrom})
-WITH startNode
-MATCH (endNode {name: $nodeTo})
-CALL apoc.path.expandConfig(startNode, {
-  relationshipFilter: 'HAS_SUBCATEGORY>',
-  endNodes: [endNode],
-  maxLevel: $maxDistance
-}) YIELD path
+MATCH path=(nodeFrom:Category {name : $nodeFrom})-[*]->(nodeTo:Category {name : $nodeTo})
 RETURN path
 `;
 

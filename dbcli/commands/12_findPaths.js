@@ -84,7 +84,7 @@ const command = {
     // Displaying the result:
     await displayResult({
       executionTime,
-      header: `\n<wht>All paths</wht> between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw> (up to <ylw>${depth}</ylw> levels deep):\n`,
+      header: `\n<wht>All paths</wht> between nodes <ylw>"${node01}"</ylw> and <ylw>"${node02}"</ylw>:\n`,
       data: displayString,
     });
 
