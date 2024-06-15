@@ -40,22 +40,6 @@ const command = {
       return reachable;
     };
 
-    // Listens for stdout data (and formats it adequately)
-    dockerProcess.stdout.on("data", (data) => {
-      const output = data.toString("utf-8");
-      const infoParts = output.split("INFO");
-
-      if (infoParts.length > 1) {
-        if (infoParts[1].includes("Remote interface available at")) {
-          spinner.clear(); // Clears the spinner
-          spinner.succeed("Database is ready to accept connections.");
-          spinner.warn(
-            "Keep this terminal open to prevent disconnection from the database. Open a separate instance for running commands."
-          );
-        }
-      }
-    });
-
     const checkInterval = setInterval(async () => {
       const isConnected = await checkDatabaseConnection();
       if (isConnected) {
