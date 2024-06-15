@@ -39,7 +39,7 @@ const command = {
       process.exit();
     }
 
-    console.log(await chalkText("<ylw>⚠</ylw> CSV files with more than two columns per row may result in unexpected processing errors."))
+    console.log(await chalkText("<ylw>⚠</ylw> CSV files that do not have exactly two columns per row may result in unexpected processing errors."))
 
     const startTime = performance.now();
 
