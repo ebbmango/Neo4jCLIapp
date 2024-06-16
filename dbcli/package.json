@@ -1,0 +1,28 @@
+{
+  "name": "dbcli",
+  "version": "1.0.0",
+  "description": "A command line interface to load CSV data into a Neo4J database and subsequently query it.",
+  "main": "bin/index.js",
+  "bin": {
+    "dbcli": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "neo4j",
+    "cli",
+    "js"
+  ],
+  "author": "https://github.com/ebbmango",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "csv": "^6.3.8",
+    "is-reachable": "^5.2.1",
+    "mime-types": "^2.1.35",
+    "neo4j-driver": "^5.20.0",
+    "ora": "^8.0.1",
+    "yargs": "^17.7.2"
+  }
+}
