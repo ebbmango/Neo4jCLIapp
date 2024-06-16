@@ -544,9 +544,8 @@ The primary identified shortcomings of this project are in our current implement
 #### Heesung Kim
 
 - Scheduling team meetings.
-- Communicating and regularly consulting with the professor.
 - Keeping track of milestones achievements and ensuring the project's adherence to deadlines.
 - Regular presenting projects outcomes.
 - Designing and implementing competing MongoDB database (useful for comparison: discontinued due to Neo4j's superior performance).
-- Outlining the documentation's first first draft.
+- Outlining the documentation's first draft.
 - Implementing Cypher queries (task 12).
