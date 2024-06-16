@@ -347,16 +347,14 @@ All grandparents of the node "Tourism_in_South_Korea":
   Industry_in_South_Korea,
   Leisure_by_country,
   Service_industries_by_country,
-  Service_industries_by_country,
-  Service_industries_in_Asia_by_country,
   Service_industries_in_Asia_by_country,
   Service_industries_in_Korea,
   Tourism,
-  Tourism_in_Asia,
   Tourism_in_Asia
 ]
 
-Execution time: 0.0367 seconds
+Execution time: 0.0252 seconds
+
 ```
 
 ---
@@ -451,12 +449,7 @@ Finding all paths between two given nodes, with directed edge from the first to 
 $ dbcli 12 15th-century_Italian_painters Paintings_by_Leonardo_da_Vinci
 ✔ Query completed.
 
-All paths between nodes "15th-century_Italian_painters" and "Paintings_by_Leonardo_da_Vinci" (up to 15 levels deep):
-
-15th-century_Italian_painters
- →  Kim_Heesung
- →  Works_by_Leonardo_da_Vinci
- →  Paintings_by_Leonardo_da_Vinci (depth: 3)
+All paths between nodes "15th-century_Italian_painters" and "Paintings_by_Leonardo_da_Vinci":
 
 15th-century_Italian_painters
  →  Italian_Renaissance_painters
@@ -464,7 +457,12 @@ All paths between nodes "15th-century_Italian_painters" and "Paintings_by_Leonar
  →  Works_by_Leonardo_da_Vinci
  →  Paintings_by_Leonardo_da_Vinci (depth: 4)
 
-Execution time: 1.3789 seconds
+15th-century_Italian_painters
+ →  Kim_Heesung
+ →  Works_by_Leonardo_da_Vinci
+ →  Paintings_by_Leonardo_da_Vinci (depth: 3)
+
+Execution time: 0.0186 seconds
 ```
 
 ---
@@ -504,7 +502,13 @@ This project was developed alongisde a competing alternative in MongoDB. Our goa
 
 - ### Data Processing Efficiency
 
-  Given that most queries run in less than a second, we also find our data processing efficiency to be satisfying. In heavier queries, such as in task 10, where a total of 329,020 nodes have been returned, we consider that doing so in less than 5 seconds is sufficient. For task 12, however, considerably more time is taken. **We are not currently satisfied with the amount of time the execution of task 12 takes for wider search spaces.** However, a workaround has been implemented, and it consists of manually delimiting the search space and making use of [Neo4j's APOC library](https://neo4j.com/labs/apoc/).
+  Given that most queries run in less than a second, we also find our data processing efficiency to be satisfactory. In heavier queries, such as in task 10, where a total of 329,020 nodes have been returned, we consider doing so in less than 5 seconds to be up to standard.
+
+  **For task 12, however, considerably more time is taken.** Although the current unbounded query is incredibly efficient at finding all paths between two nodes which are separated by at most 13 or so intermediary nodes, larger search spaces can render the query virtually infinite.
+
+  Nevertheless, a workaround has been implemented, and it consists of using [Neo4j's APOC library](https://neo4j.com/labs/apoc/) to manually delimit the search space around the relevant node.
+
+  More information on this can be found [in the next topic](#strategies-for-future-mitigation-of-identified-shortcomings).
 
 - ### Accessibility
 
@@ -518,7 +522,9 @@ The primary identified shortcomings of this project are in our current implement
 
 - **Finding all paths between two nodes.**
 
-  Whenever the space between two nodes becomes too large, our current implementation of task 12 is virtually unable to query through it. As previosuly mentioned, a workaround has been provided to mitigate such shortcoming. However, since it consists of artificially delimiting the search space, we cannot be sure that all paths have indeed been returned, and as such it does not qualify as a fully-fledged successful implementation.
+  Whenever the space between two nodes becomes too large, our current implementation of task 12 is virtually unable to query through it. Many alternative solutions have been tried and tested, but none has managed to produce satisfactory results. **One possible solution that has not been fully attempted consists of querying the paths bidirectionally and concurrently, combining the halfway-found intersections to assemble the full paths from the origin to the destination node.** Some attempts of replicating such functionality were made, to no avail. Since built-in support for these functionalities is available only in the enterprise edition of Neo4j, we were unable to duly implement them.
+
+  As previosuly mentioned, a workaround has been provided to mitigate such shortcoming. However, since it consists of artificially delimiting the search space, we cannot be sure that all paths have indeed been returned, and as such it does not qualify as a fully-fledged successful implementation.
 
 - **Command line interface**
 
@@ -530,7 +536,7 @@ The primary identified shortcomings of this project are in our current implement
 
   - A `--limit` option for all commands that return lists.
 
-  - Allow for the importation of files anywhere in the system.
+  - Allow for the importation of files anywhere in the system. Perhaps by making a temporary copy of the file in the dedicated import directory.
 
 ## Project members
 

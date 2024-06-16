@@ -88,17 +88,17 @@ RETURN path
 `;
 
 const boundedFindPathsQuery = `
-   MATCH (startNode {name: $nodeFrom})
-    WITH startNode
-    MATCH (endNode {name: $nodeTo})
-    CALL apoc.path.expandConfig(startNode, {
-      relationshipFilter: 'HAS_SUBCATEGORY>',
-      endNodes: [endNode],
-      bfs: false,
-      uniqueness: 'NODE_PATH',
-      maxLevel: $maxLevel
-    }) YIELD path
-    RETURN path
+MATCH (startNode {name: $nodeFrom})
+  WITH startNode
+  MATCH (endNode {name: $nodeTo})
+  CALL apoc.path.expandConfig(startNode, {
+    relationshipFilter: 'HAS_SUBCATEGORY>',
+    endNodes: [endNode],
+    bfs: false,
+    uniqueness: 'NODE_PATH',
+    maxLevel: $maxLevel
+   }) YIELD path
+RETURN path
 `;
 
 module.exports = {
