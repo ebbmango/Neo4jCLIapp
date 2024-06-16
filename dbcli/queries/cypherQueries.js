@@ -14,7 +14,7 @@ RETURN COUNT (child) AS childrenCount
 // 03 - This query FINDS ALL GRANDCHILDREN of the node whose name is given by the "categoryName" parameter
 const findGrandchildrenQuery = `
 MATCH (node:Category {name: $categoryName})-[:HAS_SUBCATEGORY*2]->(grandchild:Category)
-RETURN grandchild
+RETURN DISTINCT grandchild
 ORDER BY grandchild.name ASC
 `;
 
@@ -34,7 +34,7 @@ RETURN COUNT (parent) AS parentsCount
 // 06 - This query FINDS ALL GRANDPARENTS of the node whose name is given by the "categoryName" parameter
 const findGrandparentsQuery = ` 
 MATCH (node:Category {name: $categoryName})<-[:HAS_SUBCATEGORY*2]-(grandparent:Category) 
-RETURN grandparent 
+RETURN DISTINCT grandparent 
 ORDER BY grandparent.name ASC 
 `;
 
