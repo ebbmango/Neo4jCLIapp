@@ -552,6 +552,6 @@ The primary identified shortcomings of this project are in our current implement
 - Scheduling team meetings.
 - Keeping track of milestones achievements and ensuring the project's adherence to deadlines.
 - Regular presenting projects outcomes.
-- Designing and implementing competing MongoDB database (useful for comparison: discontinued due to Neo4j's superior performance).
+- Designing and implementing competing MongoDB database (used for comparison and discontinued due to Neo4j's superior performance).
 - Outlining the documentation's first draft.
 - Implementing Cypher queries (task 12).
