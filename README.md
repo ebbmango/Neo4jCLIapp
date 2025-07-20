@@ -1,5 +1,3 @@
-# DB2 - (Group 4) Kim Heesung & Emanuel Borges
-
 ## Introduction
 
 This project's aim is the following:
